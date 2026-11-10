@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nile Tech | نيل تك — شريكك التقني لأنظمة Odoo ERP والحلول المؤسسية</title>
+<meta name="description" content="نيل تك (Nile Tech) لتطوير وتطبيق أنظمة Odoo ERP، الفاتورة الإلكترونية المصرية ETA والسعودية ZATCA، الربط مع SAP، والحلول المخصصة للشركات في مصر والخليج.">
+<style>
+:root{
+  --bg:#071820; --bg2:#0b2430; --card:#0f2e3b; --line:#1d4a5a;
+  --petrol:#0f6b7a; --teal:#19b3a6; --mint:#7ee8d6; --amber:#f6b45c; --rose:#ef6f6c;
+  --text:#e8f3f5; --muted:#8fb3bd;
+  --font:"Noto Kufi Arabic","Segoe UI","Tahoma","Noto Sans",sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--font);line-height:1.7;overflow-x:hidden}
+a{color:var(--mint)}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+section{padding:72px 0;position:relative}
+h2{font-size:30px;margin-bottom:8px}
+.lead{color:var(--muted);margin-bottom:32px;max-width:760px}
+.eyebrow{color:var(--teal);font-size:13px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;margin-bottom:6px}
+.ltr{direction:ltr;unicode-bidi:isolate}
+
+/* nav */
+nav{position:sticky;top:0;z-index:20;background:rgba(7,24,32,.82);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;align-items:center;gap:22px;height:58px}
+nav .brand{font-weight:800;letter-spacing:.02em}
+nav .brand b{color:var(--teal)}
+nav .links{display:flex;gap:18px;flex:1;font-size:14px}
+nav .links a{color:var(--muted);text-decoration:none}
+nav .links a:hover{color:var(--text)}
+.btn{background:transparent;border:1px solid var(--line);color:var(--text);border-radius:999px;padding:6px 14px;cursor:pointer;font-family:inherit;font-size:13px}
+.btn:hover{border-color:var(--teal)}
+
+/* hero */
+.hero{min-height:88vh;display:flex;align-items:center;overflow:hidden;padding:40px 0 90px}
+.hero canvas{position:absolute;inset:0;width:100%;height:100%;opacity:.55}
+.hero .wrap{position:relative;z-index:2}
+.hero h1{font-size:clamp(34px,5.4vw,64px);line-height:1.15;margin:10px 0 18px;font-weight:800}
+.hero h1 .grad{background:linear-gradient(90deg,var(--mint),var(--teal),var(--amber));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p.sub{font-size:19px;color:var(--muted);max-width:720px}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:44px}
+.kpi{background:linear-gradient(160deg,rgba(25,179,166,.13),rgba(15,46,59,.6));border:1px solid var(--line);border-radius:18px;padding:20px}
+.kpi .n{font-size:42px;font-weight:800;color:var(--mint);font-variant-numeric:tabular-nums}
+.kpi .l{color:var(--muted);font-size:14px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
+.chip{border:1px solid var(--line);border-radius:999px;padding:4px 12px;font-size:13px;color:var(--muted);background:rgba(15,46,59,.5)}
+
+/* heatmap */
+.heat-card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:22px;direction:ltr}
+#heat{display:block;height:auto}
+.legend{display:flex;gap:6px;align-items:center;color:var(--muted);font-size:12px;margin-top:10px}
+.legend i{width:12px;height:12px;border-radius:3px;display:inline-block}
+.bars{display:flex;align-items:flex-end;gap:10px;height:180px;margin-top:28px;direction:ltr}
+.bar{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px}
+.bar .col{width:100%;border-radius:8px 8px 3px 3px;background:linear-gradient(180deg,var(--teal),var(--petrol));transform-origin:bottom;transform:scaleY(0);transition:transform 1s cubic-bezier(.2,.8,.2,1)}
+.bar .v{font-size:12px;color:var(--mint)}
+.bar .m{font-size:11px;color:var(--muted);white-space:nowrap}
+.in .bar .col{transform:scaleY(1)}
+
+/* journey */
+.journey{position:relative;display:grid;gap:22px}
+.journey:before{content:"";position:absolute;inset-inline-start:21px;top:8px;bottom:8px;width:2px;background:linear-gradient(var(--teal),var(--amber))}
+.phase{display:grid;grid-template-columns:44px 1fr;gap:18px;opacity:0;transform:translateY(24px);transition:.7s}
+.phase.in{opacity:1;transform:none}
+.dot{width:44px;height:44px;border-radius:50%;background:var(--bg);border:2px solid var(--teal);display:grid;place-items:center;font-weight:800;color:var(--mint);z-index:1}
+.phase .body{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px 22px}
+.phase .when{color:var(--amber);font-size:13px;font-weight:700}
+.phase h3{font-size:21px;margin:2px 0 8px}
+.phase ul{padding-inline-start:20px;color:var(--muted)}
+.phase .count{float:inline-end;color:var(--mint);font-size:13px;margin-inline-start:16px;background:rgba(25,179,166,.12);border-radius:999px;padding:0 10px}
+
+/* domains */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
+.dom{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px;position:relative;overflow:hidden;cursor:pointer;transition:.25s}
+.dom:hover{transform:translateY(-4px);border-color:var(--c)}
+.dom:after{content:"";position:absolute;inset-inline-end:-40px;top:-40px;width:120px;height:120px;border-radius:50%;background:var(--c);opacity:.13}
+.dom .n{font-size:34px;font-weight:800;color:var(--c)}
+.dom h3{font-size:18px;margin-bottom:6px}
+.dom p{color:var(--muted);font-size:14px}
+.dom .meter{height:6px;background:var(--bg2);border-radius:6px;margin-top:14px;overflow:hidden}
+.dom .meter i{display:block;height:100%;background:var(--c);width:0;transition:width 1.2s}
+
+/* incidents */
+.inc{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:16px}
+.case{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px;border-top:3px solid var(--rose)}
+.case .tag{font-size:12px;color:var(--rose);font-weight:700}
+.case h3{font-size:18px;margin:4px 0 12px}
+.case dl{display:grid;grid-template-columns:auto 1fr;gap:6px 12px;font-size:14px}
+.case dt{color:var(--amber);font-weight:700}
+.case dd{color:var(--muted)}
+
+/* method */
+.method{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px}
+.m-item{border:1px dashed var(--line);border-radius:16px;padding:18px}
+.m-item b{display:block;color:var(--mint);margin-bottom:4px}
+.m-item span{color:var(--muted);font-size:14px}
+
+/* modules */
+.mods{display:grid;gap:8px;direction:ltr}
+.mod{display:grid;grid-template-columns:230px 1fr 40px;align-items:center;gap:12px;font-size:13px}
+.mod .t{height:10px;background:var(--bg2);border-radius:6px;overflow:hidden}
+.mod .t i{display:block;height:100%;background:linear-gradient(90deg,var(--petrol),var(--teal));width:0;transition:width 1.2s}
+.mod code{color:var(--text)}
+.mod .c{color:var(--mint);text-align:end}
+
+/* explorer */
+.tools{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px;align-items:center}
+.tools input,.tools select{background:var(--card);border:1px solid var(--line);color:var(--text);border-radius:12px;padding:9px 14px;font-family:inherit;font-size:14px}
+.tools input{flex:1;min-width:220px}
+.fchip{border:1px solid var(--line);border-radius:999px;padding:5px 12px;font-size:13px;cursor:pointer;color:var(--muted);background:transparent;font-family:inherit}
+.fchip.on{color:#05161c;background:var(--c);border-color:var(--c)}
+.log{border:1px solid var(--line);border-radius:18px;overflow:hidden}
+.row{display:grid;grid-template-columns:105px 14px 1fr;gap:12px;padding:10px 16px;border-bottom:1px solid var(--line);font-size:14px;direction:ltr;text-align:left}
+.row:nth-child(odd){background:rgba(15,46,59,.45)}
+.row .d{color:var(--muted);font-variant-numeric:tabular-nums}
+.row .k{width:10px;height:10px;border-radius:50%;margin-top:7px}
+.row .ms{display:block;color:var(--muted);font-size:12px}
+.more{margin:14px auto 0;display:block}
+.count-line{color:var(--muted);font-size:13px}
+
+footer{border-top:1px solid var(--line);padding:30px 0;color:var(--muted);font-size:13px}
+
+.reveal{opacity:0;transform:translateY(20px);transition:.8s}
+.reveal.in{opacity:1;transform:none}
+
+/* motion */
+#progress{position:fixed;top:0;inset-inline-start:0;height:3px;width:0;z-index:30;background:linear-gradient(90deg,var(--teal),var(--amber));box-shadow:0 0 12px var(--teal)}
+#glow{position:fixed;width:520px;height:520px;border-radius:50%;pointer-events:none;z-index:0;background:radial-gradient(circle,rgba(25,179,166,.10),transparent 65%);transform:translate(-50%,-50%);left:-999px;top:-999px;transition:left .15s linear,top .15s linear}
+.rotator{display:inline-block;color:var(--amber);min-width:6ch;border-inline-end:3px solid var(--amber);padding-inline-end:4px;animation:caret 1s steps(1) infinite}
+@keyframes caret{50%{border-color:transparent}}
+.kpi{transition:transform .25s,box-shadow .25s}
+.kpi:hover{box-shadow:0 18px 40px -18px rgba(25,179,166,.55)}
+.tilt{transform-style:preserve-3d;will-change:transform}
+.marquee{overflow:hidden;border-block:1px solid var(--line);padding:14px 0;direction:ltr;mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent)}
+.marquee .track{display:flex;gap:14px;width:max-content;animation:slide 60s linear infinite}
+.marquee:hover .track{animation-play-state:paused}
+.marquee span{border:1px solid var(--line);border-radius:10px;padding:6px 14px;font-family:monospace;font-size:13px;color:var(--mint);background:rgba(15,46,59,.6);white-space:nowrap}
+@keyframes slide{to{transform:translateX(-50%)}}
+#heat rect{transform-box:fill-box;transform-origin:center;transform:scale(0);transition:transform .35s cubic-bezier(.3,1.6,.5,1)}
+.heat-card.in #heat rect{transform:scale(1)}
+#heat rect:hover{stroke:#fff;stroke-width:1.5}
+.journey:before{transform-origin:top;transform:scaleY(var(--grow,0));transition:transform .2s linear}
+.phase.in .dot{animation:pop .6s cubic-bezier(.3,1.6,.5,1)}
+@keyframes pop{0%{transform:scale(0)}100%{transform:scale(1)}}
+.dot{box-shadow:0 0 0 0 rgba(25,179,166,.6)}
+.phase.in .dot{animation:pop .6s cubic-bezier(.3,1.6,.5,1),ring 2.4s 0.6s infinite}
+@keyframes ring{0%{box-shadow:0 0 0 0 rgba(25,179,166,.55)}70%{box-shadow:0 0 0 14px rgba(25,179,166,0)}100%{box-shadow:0 0 0 0 rgba(25,179,166,0)}}
+.case{transition:transform .3s,box-shadow .3s}
+.case:hover{box-shadow:0 20px 50px -24px rgba(239,111,108,.6)}
+.case .tag:before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--rose);margin-inline-end:6px;animation:blink 1.6s infinite}
+@keyframes blink{50%{opacity:.2}}
+.row{animation:rowin .45s both}
+@keyframes rowin{from{opacity:0;transform:translateY(8px)}}
+.scroll-hint{position:absolute;bottom:22px;left:50%;transform:translateX(-50%);z-index:2;color:var(--muted);font-size:12px;text-align:center;animation:bob 2s infinite}
+@keyframes bob{50%{transform:translate(-50%,8px)}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+@media (max-width:820px){.kpis{grid-template-columns:repeat(2,1fr)}nav .links{display:none}.mod{grid-template-columns:150px 1fr 34px}}
+  @media print{
+  nav,.hero canvas,.tools,.more,#explorer,#progress,#glow,.marquee,.scroll-hint{display:none!important}
+  #heat rect{transform:none!important}
+  body{background:#fff;color:#111}
+  .kpi,.phase .body,.dom,.case,.heat-card{background:#fff!important;border-color:#ccc!important;break-inside:avoid}
+  .reveal,.phase{opacity:1!important;transform:none!important}
+  .bar .col{transform:none!important}
+  .chip{background:#eef6f7!important;color:#0b2430!important;border-color:#b9d6db!important}
+  .bar .v,.dom .n,.kpi .n,.phase .count{color:#0f6b7a!important}
+  .hero h1,.hero h1 .grad{color:#0b2430!important;-webkit-text-fill-color:#0b2430}
+  .lead,.kpi .l,.phase ul,.dom p,.case dd{color:#333!important}
+  section{padding:28px 0}
+  .hero{min-height:auto}
+}
+
+/* Nile Tech Company Profile Extensions */
+.hero-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:26px}
+.btn-cta{display:inline-flex;align-items:center;gap:8px;padding:11px 22px;border-radius:999px;font-weight:700;font-size:14px;text-decoration:none;transition:.25s;cursor:pointer;border:1px solid var(--teal)}
+.btn-cta.primary{background:linear-gradient(135deg,var(--teal),var(--petrol));color:#fff;box-shadow:0 10px 26px -10px rgba(25,179,166,.65)}
+.btn-cta.primary:hover{transform:translateY(-2px);box-shadow:0 14px 32px -10px rgba(25,179,166,.85)}
+.btn-cta.secondary{background:rgba(15,46,59,.65);color:var(--mint);border-color:var(--line)}
+.btn-cta.secondary:hover{border-color:var(--teal);color:#fff}
+.btn-cta.amber{background:rgba(246,180,92,.14);color:var(--amber);border-color:rgba(246,180,92,.45)}
+.btn-cta.amber:hover{background:rgba(246,180,92,.25)}
+
+/* Services */
+.srv-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:18px}
+.srv-card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:24px;position:relative;overflow:hidden;transition:.3s}
+.srv-card:hover{transform:translateY(-5px);border-color:var(--c);box-shadow:0 20px 44px -22px rgba(25,179,166,.45)}
+.srv-card:before{content:"";position:absolute;inset-inline-start:0;top:0;bottom:0;width:4px;background:var(--c)}
+.srv-icon{font-size:28px;margin-bottom:10px;display:inline-block}
+.srv-card h3{font-size:19px;margin-bottom:8px;color:var(--text)}
+.srv-card p{color:var(--muted);font-size:14px;margin-bottom:14px}
+.srv-tags{display:flex;flex-wrap:wrap;gap:6px}
+.srv-tags span{font-size:11px;padding:3px 10px;border-radius:999px;background:rgba(7,24,32,.6);border:1px solid var(--line);color:var(--mint)}
+
+/* Founders */
+.founders-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(420px,1fr));gap:22px}
+.founder-card{background:linear-gradient(165deg,rgba(15,46,59,.92),rgba(11,36,48,.85));border:1px solid var(--line);border-radius:22px;padding:28px;position:relative;overflow:hidden;transition:.3s}
+.founder-card:hover{border-color:var(--c);box-shadow:0 22px 48px -24px rgba(25,179,166,.5)}
+.founder-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:12px;flex-wrap:wrap}
+.founder-head h3{font-size:24px;color:var(--text)}
+.founder-role{color:var(--c);font-size:14px;font-weight:700;margin-bottom:10px}
+.founder-exp{background:rgba(25,179,166,.14);border:1px solid var(--c);color:var(--mint);font-size:12px;font-weight:700;padding:4px 12px;border-radius:999px}
+.founder-bio{color:var(--muted);font-size:14px;margin-bottom:16px}
+.founder-list{padding-inline-start:18px;color:var(--text);font-size:13.5px;margin-bottom:18px;display:grid;gap:6px}
+.founder-list li::marker{color:var(--c)}
+.founder-links{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.founder-links a{text-decoration:none;font-size:12px;padding:5px 12px;border-radius:999px;border:1px solid var(--line);color:var(--mint);background:rgba(7,24,32,.65);transition:.2s}
+.founder-links a:hover{border-color:var(--c);color:#fff}
+
+/* Portfolio Projects */
+.proj-filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px}
+.pchip{border:1px solid var(--line);border-radius:999px;padding:6px 15px;font-size:13px;cursor:pointer;color:var(--muted);background:var(--card);font-family:inherit;transition:.2s}
+.pchip.on,.pchip:hover{color:#05161c;background:var(--mint);border-color:var(--mint);font-weight:700}
+.proj-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(350px,1fr));gap:20px}
+.proj-card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:24px;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden;transition:.3s;border-top:3px solid var(--c)}
+.proj-card:hover{transform:translateY(-5px);box-shadow:0 22px 48px -22px rgba(25,179,166,.45);border-color:var(--c)}
+.proj-top{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:10px;font-size:12px}
+.proj-country{color:var(--c);font-weight:700}
+.proj-lead{color:var(--muted);background:rgba(7,24,32,.6);padding:2px 10px;border-radius:999px;border:1px solid var(--line)}
+.proj-card h3{font-size:19px;margin-bottom:8px;line-height:1.35}
+.proj-desc{color:var(--muted);font-size:13.5px;margin-bottom:12px}
+.proj-bullets{padding-inline-start:18px;color:var(--text);font-size:13px;display:grid;gap:5px;margin-bottom:16px}
+.proj-bullets li::marker{color:var(--c)}
+.proj-mods{display:flex;flex-wrap:wrap;gap:6px;margin-top:auto;padding-top:12px;border-top:1px dashed rgba(29,74,90,.7);direction:ltr}
+.proj-mods code{font-size:11px;padding:2px 8px;border-radius:6px;background:rgba(7,24,32,.75);color:var(--mint);border:1px solid rgba(29,74,90,.8)}
+.proj-link{display:inline-block;margin-top:12px;font-size:13px;font-weight:700;color:var(--amber);text-decoration:none}
+.proj-link:hover{text-decoration:underline}
+
+/* Contact Section */
+.contact-card{background:linear-gradient(145deg,rgba(25,179,166,.16),rgba(15,46,59,.9));border:1px solid var(--teal);border-radius:24px;padding:36px;display:grid;grid-template-columns:1.2fr 1fr;gap:28px;align-items:center}
+.contact-list{display:grid;gap:12px;margin-top:20px}
+.contact-item{display:flex;align-items:center;gap:12px;background:rgba(7,24,32,.65);border:1px solid var(--line);padding:12px 16px;border-radius:14px;text-decoration:none;color:var(--text);transition:.2s}
+.contact-item:hover{border-color:var(--mint);transform:translateX(-4px)}
+.contact-form{background:rgba(7,24,32,.75);border:1px solid var(--line);border-radius:18px;padding:22px;display:grid;gap:12px}
+.contact-form input,.contact-form select,.contact-form textarea{width:100%;background:var(--card);border:1px solid var(--line);color:var(--text);border-radius:10px;padding:10px 14px;font-family:inherit;font-size:14px}
+@media (max-width:820px){.founders-grid,.contact-card,.proj-grid{grid-template-columns:1fr}}
+
+</style>
+</head>
+<body>
+<div id="progress"></div><div id="glow"></div>
+
+<nav><div class="wrap">
+  <div class="brand">Nile Tech <b>×</b> نيل تك</div>
+  <div class="links">
+    <a href="#services" data-en="Services">الخدمات</a>
+    <a href="#projects" data-en="Portfolio">سابقة الأعمال</a>
+    <a href="#founders" data-en="Leadership">المؤسسون</a>
+    <a href="#domains" data-en="Domains">المجالات</a>
+    <a href="#pulse" data-en="Pulse">النبض</a>
+    <a href="#incidents" data-en="Case Studies">حوادث وحلول</a>
+    <a href="#explorer" data-en="Explorer">كل التعديلات</a>
+    <a href="#contact" data-en="Contact">تواصل معنا</a>
+  </div>
+  <button class="btn" id="lang">English</button>
+  <button class="btn" onclick="window.print()" data-en="PDF">نسخة PDF</button>
+</div></nav>
+
+<header class="hero">
+  <canvas id="net"></canvas>
+  <div class="wrap">
+    <div class="eyebrow" data-en="Nile Tech · Enterprise Odoo ERP & Software Solutions · Egypt & GCC">نيل تك للحلول البرمجية وأنظمة أودو · مصر والسعودية وقطر</div>
+    <h1><span data-en="Building the Complete Operating System with">بناء وتطوير أنظمة التشغيل المتكاملة مع</span><br><span class="grad">Nile Tech | نيل تك</span></h1>
+    <div style="font-size:22px;margin:-6px 0 14px"><span data-en="One powerhouse partner for">شريك تقني واحد لـ</span> <span class="rotator" id="rot"></span></div>
+    <p class="sub" data-en="Founded by Eng. Mohamed Sobhy & Eng. Ahmed Mohammed (+11 years combined Odoo ERP experience). From SME fixed-price packages, Egypt ETA & Saudi ZATCA e-invoicing, and SAP Business One integration to full vertical ERPs for Contracting, Salons, Auto Spare Parts, Law Firms, Biometrics, and E-Commerce.">بقيادة م. محمد صبحي وم. أحمد محمد (+11 سنة خبرة مجمّعة في أودو والأنظمة المؤسسية). من باقات الشركات الجاهزة، والربط مع الفاتورة الإلكترونية المصرية (ETA) والسعودية (ZATCA) وساب (SAP B1)، إلى بناء أنظمة متكاملة لقطاعات المقاولات، الصالونات، قطع الغيار والاستيراد، المحاماة، التقسيط، وأجهزة البصمة وتطبيقات الموبايل.</p>
+    <div class="hero-actions">
+      <a href="#projects" class="btn-cta primary" data-en="Explore 10+ Live Enterprise Projects">استكشف سابقة الأعمال والمشاريع</a>
+      <a href="https://wa.me/201117004567?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%8B%20%D9%86%D9%8A%D9%84%20%D8%AA%D9%83%D8%8C%20%D8%A3%D8%B1%D8%BA%D8%A8%20%D9%81%D9%8A%20%D8%A7%D8%B3%D8%AA%D8%B4%D8%A7%D8%B1%D8%A9%20%D8%AD%D9%88%D9%84%20%D9%86%D8%B8%D8%A7%D9%85%20Odoo" target="_blank" class="btn-cta secondary" data-en="Chat on WhatsApp (+20 111 700 4567)">💬 تواصل عبر واتساب الآن</a>
+      <a href="#services" class="btn-cta amber" data-en="View SME Packages & Services">باقات الشركات والخدمات</a>
+    </div>
+    <div class="kpis">
+      <div class="kpi"><div class="n" data-count="commits">0</div><div class="l" data-en="shipped code changes & releases">تعديل وإصدار برمجي موثّق</div></div>
+      <div class="kpi"><div class="n" data-count="days">0</div><div class="l" data-en="enterprise systems in Egypt & GCC">منظومة ومشروع في مصر والخليج</div></div>
+      <div class="kpi"><div class="n" data-count="modules">0</div><div class="l" data-en="custom modules & integrations">موديول وتكامل برمجي مخصص</div></div>
+      <div class="kpi"><div class="n" data-count="months">0</div><div class="l" data-en="years combined ERP experience">سنة خبرة مجمّعة للشريكين (8 + 3)</div></div>
+    </div>
+    <div class="chips">
+      <span class="chip">Odoo 13 → 20 (Community & Enterprise)</span><span class="chip">Egypt ETA & Saudi ZATCA Phase 1 & 2</span><span class="chip">SAP Business One</span><span class="chip">Python · OWL · PostgreSQL</span><span class="chip">ZKTeco Biometrics & Payroll</span><span class="chip">HyperPay · MyFatoorah · QIB · OTO</span><span class="chip">Docker · Cloud & Offline Servers</span>
+    </div>
+  </div>
+  <div class="scroll-hint">▼<br><span data-en="scroll">انزل</span></div>
+</header>
+<div class="marquee"><div class="track" id="marquee"></div></div>
+
+<section id="services"><div class="wrap">
+  <div class="eyebrow reveal" data-en="Services & Packages">خدمات وحلول نيل تك</div>
+  <h2 class="reveal" data-en="Tailored Odoo ERP Solutions for Every Stage of Growth">حلول أودو متكاملة تناسب حجم وقطاع شركتك</h2>
+  <p class="lead reveal" data-en="Whether you need a rapid fixed-price ERP package, government tax integration, or a deep custom vertical platform.">سواء كنت بتبدأ بباقة جاهزة وسعر ثابت، أو محتاج ربط مع الفاتورة الإلكترونية وساب، أو نظام مفصّل بالكامل لقطاعك.</p>
+  <div class="srv-grid" id="srv-grid"></div>
+</div></section>
+
+<section id="projects"><div class="wrap">
+  <div class="eyebrow reveal" data-en="Proven Track Record">سابقة أعمال ومشاريع نيل تك</div>
+  <h2 class="reveal" data-en="Enterprise Systems Built & Deployed Across Egypt, Saudi Arabia & Qatar">أنظمة حقيقية شغالة في مصر والسعودية وقطر</h2>
+  <p class="lead reveal" data-en="Explore real production platforms engineered by Mohamed Sobhy & Ahmed Mohammed across diverse industries.">مشاريع ومنظومات إنتاجية كاملة نفذها شريكا نيل تك (م. محمد صبحي و م. أحمد محمد) في قطاعات المقاولات، الصالونات، قطع الغيار، المحاماة، التقسيط، البصمة، والتجارة الإلكترونية.</p>
+  <div class="proj-filters" id="proj-filters"></div>
+  <div class="proj-grid" id="proj-grid"></div>
+</div></section>
+
+<section id="founders"><div class="wrap">
+  <div class="eyebrow reveal" data-en="Co-Founders & Leadership">الشركاء المؤسسون</div>
+  <h2 class="reveal" data-en="Two Complementary Engineering Leaders — One Unified Team">خبرة تنفيذية ومعمارية متكاملة في فريق واحد</h2>
+  <p class="lead reveal" data-en="Combining 8+ years of enterprise techno-functional architecture with intensive full-stack Odoo & SaaS engineering.">تكامل حقيقي بين قيادة التحليل والتنفيذ المعماري للمنظومات الكبرى وتطوير الموديولات والتكاملات السحابية وتطبيقات الويب والموبايل.</p>
+  <div class="founders-grid" id="founders-grid"></div>
+</div></section>
+
+<section id="pulse"><div class="wrap reveal">
+  <div class="eyebrow" data-en="Pulse">النبض</div>
+  <h2 data-en="Every square is a day of shipped work">كل مربع هو يوم اتسلّم فيه شغل</h2>
+  <p class="lead" data-en="Built directly from the project's git history. Only my own commits are counted.">مبني مباشرة من تاريخ التعديلات في المستودع. محسوب فيه تعديلاتي أنا بس.</p>
+  <div class="heat-card">
+    <svg id="heat"></svg>
+    <div class="legend ltr"><span>less</span><i style="background:#11303c"></i><i style="background:#0f6b7a"></i><i style="background:#19b3a6"></i><i style="background:#7ee8d6"></i><span>more</span></div>
+    <div class="bars" id="bars"></div>
+  </div>
+</div></section>
+
+<section id="journey"><div class="wrap">
+  <div class="eyebrow reveal" data-en="Journey">الرحلة</div>
+  <h2 class="reveal" data-en="Five chapters, one platform">خمس مراحل، ومنصة واحدة</h2>
+  <p class="lead reveal" data-en="How the system grew from custom screens into a production platform.">إزاي النظام كبر من شاشات مخصصة لمنصة إنتاج كاملة.</p>
+  <div class="journey" id="phases"></div>
+</div></section>
+
+<section id="domains"><div class="wrap">
+  <div class="eyebrow reveal" data-en="Domains">المجالات</div>
+  <h2 class="reveal" data-en="Where the work landed">الشغل اتوزّع فين</h2>
+  <p class="lead reveal" data-en="Click a domain to see its changes in the explorer below.">دوس على أي مجال علشان تشوف تعديلاته في القائمة تحت.</p>
+  <div class="grid" id="doms"></div>
+</div></section>
+
+<section id="incidents"><div class="wrap">
+  <div class="eyebrow reveal" data-en="Production incidents">حوادث اللايف</div>
+  <h2 class="reveal" data-en="When production broke, this is how it got fixed">لما الإنتاج وقع، اتصلّح كده</h2>
+  <p class="lead reveal" data-en="Real incidents, diagnosed from logs and data — root cause first, then a fix, then a written playbook.">حوادث حقيقية، اتشخّصت من السجلات والبيانات. السبب الحقيقي الأول، بعدين الحل، بعدين دليل مكتوب.</p>
+  <div class="inc" id="cases"></div>
+</div></section>
+
+<section id="method"><div class="wrap reveal">
+  <div class="eyebrow" data-en="Method">طريقة الشغل</div>
+  <h2 data-en="How changes reach production safely">إزاي التعديل يوصل للإنتاج بأمان</h2>
+  <p class="lead" data-en="The servers have no internet and run a live business. Every change follows the same path.">السيرفرات من غير إنترنت، وعليها شغل حقيقي. كل تعديل بيمشي في نفس الطريق.</p>
+  <div class="method" id="method-items"></div>
+  <h3 style="margin:40px 0 16px" data-en="Most-touched modules">أكتر الموديولات اللي اتشغل عليها</h3>
+  <div class="mods" id="mods"></div>
+</div></section>
+
+<section id="explorer"><div class="wrap">
+  <div class="eyebrow" data-en="Explorer">كل التعديلات</div>
+  <h2 data-en="Every change, searchable">كل تعديل، وتقدر تدور فيه</h2>
+  <div class="tools">
+    <input id="q" placeholder="Search… (e.g. SAP, quotation, notification)">
+    <select id="month"></select>
+  </div>
+  <div class="tools" id="fchips"></div>
+  <div class="count-line ltr" id="cnt"></div>
+  <div class="log" id="log"></div>
+  <button class="btn more" id="more" data-en="Show more">اعرض أكتر</button>
+</div></section>
+
+<section id="contact"><div class="wrap reveal">
+  <div class="contact-card">
+    <div>
+      <div class="eyebrow" data-en="Start Your Project with Nile Tech">تواصل مع نيل تك</div>
+      <h2 data-en="Ready to Transform Your Business Operations?">جاهز لتطوير منظومة شركتك مع نيل تك؟</h2>
+      <p class="lead" style="margin-bottom:14px" data-en="Book a free technical discovery session with our co-founders to review your workflow, required modules, and fixed-price implementation roadmap.">احجز جلسة استشارية مجانية مع المؤسسين لمراجعة دورة عمل شركتك، وتحديد الموديولات المطلوبة وخطة التنفيذ والتكلفة بدقة.</p>
+      <div class="contact-list">
+        <a class="contact-item" href="https://wa.me/201117004567" target="_blank">
+          <span style="font-size:22px">💬</span>
+          <div><b data-en="WhatsApp & Direct Call">واتساب واتصال مباشر</b><div class="ltr" style="color:var(--mint);font-size:13px">+20 111 700 4567</div></div>
+        </a>
+        <a class="contact-item" href="mailto:am2157678@gmail.com">
+          <span style="font-size:22px">✉️</span>
+          <div><b data-en="Official Email">البريد الإلكتروني</b><div class="ltr" style="color:var(--mint);font-size:13px">am2157678@gmail.com</div></div>
+        </a>
+        <a class="contact-item" href="https://github.com/Ahmmedmohmed" target="_blank">
+          <span style="font-size:22px">💻</span>
+          <div><b data-en="GitHub Repositories (70+ Projects)">مستودعات الكود والمشاريع (GitHub)</b><div class="ltr" style="color:var(--mint);font-size:13px">github.com/Ahmmedmohmed</div></div>
+        </a>
+        <a class="contact-item" href="https://www.linkedin.com/in/ahmed-mohmed-odoo/" target="_blank">
+          <span style="font-size:22px">🔗</span>
+          <div><b data-en="LinkedIn Profile">حساب لينكدإن الرسمي</b><div class="ltr" style="color:var(--mint);font-size:13px">linkedin.com/in/ahmed-mohmed-odoo</div></div>
+        </a>
+      </div>
+    </div>
+    <form class="contact-form" onsubmit="sendWhatsAppInquiry(event)">
+      <h3 data-en="Quick Consultation Request">طلب عرض سعر أو استشارة سريعة</h3>
+      <input id="c-name" required placeholder="الاسم / اسم الشركة (Name / Company)">
+      <select id="c-srv">
+        <option value="باقة Odoo جاهزة للشركات">باقة Odoo جاهزة للشركات (SME Package)</option>
+        <option value="نظام مقاولات ومكتب فني و SAP">نظام مقاولات ومكتب فني وربط SAP</option>
+        <option value="الربط مع الفاتورة الإلكترونية ETA / ZATCA">الربط مع الفاتورة الإلكترونية (ETA / ZATCA)</option>
+        <option value="نظام صالونات / عيادات / حجز مواعيد">نظام صالونات / عيادات / حجز مواعيد وتطبيق موبايل</option>
+        <option value="نظام قطع غيار واستيراد / تقسيط / محاماة">نظام قطع غيار واستيراد / تقسيط / مكتب محاماة</option>
+        <option value="ربط أجهزة البصمة والورديات والمرتبات">ربط أجهزة البصمة ZKTeco والورديات والمرتبات</option>
+        <option value="ترقية Odoo أو عقد دعم وصيانة شهري">ترقية إصدار Odoo أو عقد دعم وصيانة شهري</option>
+      </select>
+      <textarea id="c-msg" rows="3" placeholder="اكتب تفاصيل مختصرة عن مشروعك... (Brief project details)"></textarea>
+      <button type="submit" class="btn-cta primary" style="justify-content:center;width:100%" data-en="Send Inquiry via WhatsApp">إرسال الطلب فوراً عبر واتساب 🚀</button>
+    </form>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  <span data-en="© 2026 Nile Tech (نيل تك) — Co-Founded by Eng. Mohamed Sobhy & Eng. Ahmed Mohammed · Cairo, Egypt · Serving Egypt, KSA & Qatar.">© 2026 شركة نيل تك (Nile Tech) للحلول البرمجية وأنظمة أودو — تأسيس م. محمد صبحي و م. أحمد محمد · القاهرة، مصر · نخدم عملاءنا في مصر والسعودية وقطر.</span>
+  <span class="ltr" id="gen"></span>
+</div></footer>
+
+<script>
+const DATA = {"commits": [{"h": "nt-kaya1", "d": "2026-11-09", "s": "Kaya Tech (KSA): Simplify Salon screens, Customer 3-tab card, Specialist commissions & slots.", "m": ["appointment_management_system", "kaya_theme", "code_backend_theme"], "k": "ux"}, {"h": "nt-kaya2", "d": "2026-10-28", "s": "Nouf Beauty & Kaya Tech (KSA): Standalone bilingual Public Booking Portal (/booking) + OWL POS Appointment popups.", "m": ["kaya_public_booking", "appointment_management_system_pos", "appointment_management_system_website"], "k": "ecom"}, {"h": "nt-kaya3", "d": "2026-10-22", "s": "Kaya Inventory: Smart Kanban dashboard by product type & dynamic bridges for Landed Costs and Purchases.", "m": ["kaya_inventory_custom", "kaya_inventory_landed_bridge", "kaya_inventory_purchase_bridge"], "k": "supply"}, {"h": "nt-kaya4", "d": "2026-10-20", "s": "HyperPay Payment Gateway & OTO Shipping API full integration with auto order confirmation & WhatsApp alerts.", "m": ["hyperpay_api_integration", "oto_shipping_integration"], "k": "ecom"}, {"h": "nt-bio1", "d": "2026-10-15", "s": "Biometric Engine v17.0.3.0.0: ZKTeco IP + ADMS Push + Local Agent, Clock Difference guard, and Fingerprint template sync.", "m": ["biometric_device_integration", "biometric_attendance_payroll"], "k": "hr"}, {"h": "cd00552", "d": "2026-10-14", "s": "Service request: notify Technical Office manager (inbox + email) on creation.", "m": ["inter_sales_custom"], "k": "notify"}, {"h": "51d945b", "d": "2026-10-14", "s": "Time Planner 18.0.1.3.2: unopened assigned tasks counter (keep PNG menu icon).", "m": ["time_planner"], "k": "notify"}, {"h": "c55680d", "d": "2026-10-14", "s": "Products: Allowed Users field limits who can pick a product.", "m": ["inter_project_custom", "product_permissions"], "k": "security"}, {"h": "a3a713c", "d": "2026-10-14", "s": "SAP: faster quotation price/stock lookups (cache, shared session, keep-alive, timeout).", "m": ["sbo1_integration"], "k": "sap"}, {"h": "eda5532", "d": "2026-10-14", "s": "SAP: nightly item sync, skip failing items, stock popup for all internal users.", "m": ["sbo1_integration"], "k": "sap"}, {"h": "314ef76", "d": "2026-10-14", "s": "Quotation lines: search and select products by Model No (barcode).", "m": ["inter_project_custom"], "k": "crm"}, {"h": "c7feffb", "d": "2026-10-13", "s": "Stop access_roles from duplicating filter/group-by registry rows on every server start.", "m": ["access_roles"], "k": "platform"}, {"h": "82d4366", "d": "2026-10-13", "s": "Remove old notification addons replaced by Notification Center.", "m": ["mn_prayer_times", "smart_notification_center", "smart_notification_center2"], "k": "notify"}, {"h": "ac9787c", "d": "2026-10-13", "s": "Add Time Planner and Notification Center addons.", "m": ["notification_center", "time_planner", "time_planner_notification"], "k": "notify"}, {"h": "nt-law1", "d": "2026-10-12", "s": "Egyptian Law Office ERP v17.0.3.0.0: 16 models, appeal chains, legal deadline calculator with holidays, client portal & WhatsApp.", "m": ["lawyer_office"], "k": "verticals"}, {"h": "nt-inst1", "d": "2026-10-05", "s": "Installment Management v17.0.3.0.0: Barcode cash/installment sale flow, base64 QR labels, 10 security roles & WhatsApp reminders.", "m": ["installment_management"], "k": "verticals"}, {"h": "b4623eb", "d": "2026-09-28", "s": "add", "m": ["ai_email_agent", "docs"], "k": "platform"}, {"h": "nt-trip1", "d": "2026-09-28", "s": "Auto Spare Parts & Import Trips ERP: Trip landed cost, FIFO trip allocation, OEM search & Egyptian Tax Invoice PDF with Tafqeet.", "m": ["trip_spare_parts"], "k": "verticals"}, {"h": "510b18c", "d": "2026-09-27", "s": "Apply Fixed Amount discount on untaxed base before tax.", "m": ["inter_sales_custom"], "k": "crm"}, {"h": "nt-chido", "d": "2026-09-27", "s": "Cloudbeds PMS Two-Way Hotel Integration with Odoo POS & Inventory.", "m": ["my_hotel_integration", "hr_zk_attendance_pyzk"], "k": "verticals"}, {"h": "35f8d15", "d": "2026-09-21", "s": "Revert custom Fixed Discount to native Odoo Fixed Amount.", "m": ["inter_sales_custom"], "k": "crm"}, {"h": "3a3e2ad", "d": "2026-09-21", "s": "Add Fixed Discount on Total and fix Fixed Amount discount lines.", "m": ["inter_sales_custom"], "k": "crm"}, {"h": "de5008c", "d": "2026-09-20", "s": "Add Vendor Registration toggle to gate quotation attachment upload.", "m": ["inter_sales_custom"], "k": "crm"}, {"h": "nt-flor", "d": "2026-09-16", "s": "District Flowers & Florist KSA: ZATCA Phase 1 & 2 TLV QR E-Invoicing, Saudi GOSI Payroll, WhatsApp suite & Docker production stack.", "m": ["mai_e_invoice_ksa", "hr_advanced_gosi", "whatsapp_sale", "whatsapp_pos", "salon_system"], "k": "ecom"}, {"h": "206d1dd", "d": "2026-09-15", "s": "Fix Notification Center dashboard drill-down crash.", "m": ["smart_notification_center", "smart_notification_center2"], "k": "notify"}, {"h": "864d58a", "d": "2026-09-15", "s": "Keep TO task quotations visible after create.", "m": ["inter_project_custom"], "k": "projects"}, {"h": "ff6d748", "d": "2026-09-14", "s": "Show all task quotations on the TO smart button.", "m": ["inter_project_custom"], "k": "projects"}, {"h": "0aa596b", "d": "2026-09-14", "s": "Fix mn_prayer_times install on Odoo 18.", "m": ["mn_prayer_times"], "k": "platform"}, {"h": "722eb09", "d": "2026-09-14", "s": "Avoid SNC install failure on orphaned res.groups links.", "m": ["smart_notification_center"], "k": "platform"}, {"h": "163aa92", "d": "2026-09-14", "s": "Add mn_prayer_times module for Odoo 18.", "m": ["mn_prayer_times"], "k": "ux"}, {"h": "6e6ac80", "d": "2026-09-14", "s": "Fix Smart Notification Center installs on Odoo 18.", "m": ["hr_docs_expiry", "smart_notification_center", "smart_notification_center2"], "k": "notify"}, {"h": "bd354bc", "d": "2026-09-14", "s": "Allow Technical Office to open quotations under Own Documents sales rules.", "m": ["inter_project_custom", "inter_sales_custom"], "k": "security"}, {"h": "7132e48", "d": "2026-09-14", "s": "Allow Technical Office to open quotations under Own Documents sales rules.", "m": ["inter_project_custom", "inter_sales_custom"], "k": "security"}, {"h": "1e5339e", "d": "2026-09-10", "s": "Fix quotation import Product display and show all quotes in Sales.", "m": ["inter_project_custom", "inter_sales_custom", "sbo1_integration"], "k": "crm"}, {"h": "nt-fath", "d": "2026-09-10", "s": "Full-Stack LMS & E-Commerce Platforms (Al-Fateh & Dar El-Qalam): Django REST Framework + React.js with JWT.", "m": ["backend-fath", "react_fath", "lms-web"], "k": "platform"}, {"h": "17b0def", "d": "2026-09-09", "s": "add", "m": ["smart_notification_center", "smart_notification_center2"], "k": "notify"}, {"h": "d7f0bab", "d": "2026-09-08", "s": "add", "m": ["local_llm_odoo"], "k": "platform"}, {"h": "35fbf5a", "d": "2026-09-08", "s": "Fix TO Quotations smart button for Own Documents sales users.", "m": ["inter_project_custom"], "k": "projects"}, {"h": "258371e", "d": "2026-09-08", "s": "Ship folder-based Documents with visibility and File Manager rights.", "m": ["extramile_documents"], "k": "security"}, {"h": "12aaae5", "d": "2026-09-06", "s": "Fix service-request task locks so TO engineers can edit Received SRs.", "m": ["inter_project_custom", "inter_sales_custom"], "k": "projects"}, {"h": "e358cf9", "d": "2026-09-06", "s": "Fix CRM follow-up create for engineers and Model No price focus steal.", "m": ["inter_project_custom", "inter_sales_custom"], "k": "crm"}, {"h": "7c1026a", "d": "2026-09-06", "s": "Fix URN auto-generation after DB restore sequence drift.", "m": ["inter_sales_custom"], "k": "platform"}, {"h": "7746c35", "d": "2026-09-06", "s": "Guard stock check wizard when product has no SAP Item Code.", "m": ["sbo1_integration"], "k": "sap"}, {"h": "0f45825", "d": "2026-09-05", "s": "Point automated backups at LIVE construction DB and add deploy_live helper.", "m": [], "k": "platform"}, {"h": "88c0fa4", "d": "2026-09-04", "s": "Ship home menu landing, documents app, and sales attachment tools.", "m": ["alamayah_theme_custom", "extramile_documents", "inter_project_custom", "inter_sales_custom"], "k": "ux"}, {"h": "e615e8b", "d": "2026-08-31", "s": "Fix department import crash on hr.employee name_search.", "m": ["hr_base"], "k": "hr"}, {"h": "dc610c0", "d": "2026-08-30", "s": "Fix employee create crash and Technical Office Engineer task visibility.", "m": ["hr_base", "inter_project_custom", "inter_sales_custom"], "k": "projects"}, {"h": "nt-rab1", "d": "2026-08-27", "s": "Rabeh Group & Newtown Contracting (Qatar): BOQ system, Construction Management, Multi-Vendor Marketplace & QIB/MyFatoorah gateways.", "m": ["rabeh_boq", "pways_construction_management", "odoo_marketplace", "qib_payment_gateway", "myfatoorah_payment_gateway", "wps_report"], "k": "projects"}, {"h": "6eae581", "d": "2026-08-26", "s": "Add CRM follow-up tasks with assignee alerts and 24/48/72h escalation.", "m": ["inter_project_custom"], "k": "notify"}, {"h": "e25383b", "d": "2026-08-19", "s": "Upgrade audit trail with dashboard, analytics, and color-coded views.", "m": ["extramile_audit_trail"], "k": "platform"}, {"h": "71295ab", "d": "2026-08-18", "s": "Add ExtraMile daily audit trail on top of OCA auditlog.", "m": ["extramile_audit_trail"], "k": "insight"}, {"h": "nt-rab2", "d": "2026-08-15", "s": "Rabeh Digital Mobile APIs & El-Rabeh Custom Website Theme (iOS App Store & Google Play integration).", "m": ["rabeh_digital", "elrabeh_site", "sms_mobile_sa_otp", "firebase_notifications_ui"], "k": "ecom"}, {"h": "42c4985", "d": "2026-08-05", "s": "Improve Documents smart button create and navigation UX.", "m": ["crm_tender_bridge"], "k": "ux"}, {"h": "nt-osama", "d": "2026-08-01", "s": "Captain Osama Smart Coaching PWA & SaaS: Supabase RLS, nutrition calculator, PIN-protected trainee links & offline PDF.", "m": ["captain_osama_pwa", "supabase_rls"], "k": "ux"}, {"h": "8f8f3ff", "d": "2026-07-30", "s": "Make base_accounting_kit coexist with om_account_followup.", "m": ["base_accounting_kit"], "k": "hr"}, {"h": "f81d3eb", "d": "2026-07-30", "s": "Fix accounting payment state dependencies for Odoo 18.", "m": ["base_accounting_kit"], "k": "hr"}, {"h": "9e26b47", "d": "2026-07-30", "s": "Add offline ofxparse/qifparse wheels for base_accounting_kit.", "m": [], "k": "platform"}, {"h": "0b1baec", "d": "2026-07-30", "s": "add", "m": ["base_account_budget", "base_accounting_kit", "project_tasks"], "k": "platform"}, {"h": "12146a7", "d": "2026-07-28", "s": "Add labor logs, unified documents, and project purchase UX improvements.", "m": ["crm_tender_bridge", "inter_project_custom", "inter_sales_custom"], "k": "ux"}, {"h": "f2b1649", "d": "2026-07-20", "s": "Fix system/brand multi-select and pass them to service request lines.", "m": ["access_roles", "accounting_pdf_reports", "hide_menu_user", "inter_sales_custom", "om_account_accountant", "om_account_asset", "om_account_budget", "om_account_daily_reports", "om_account_followup", "om_fiscal_year", "om_recurring_payments"], "k": "ux"}, {"h": "f9b6d32", "d": "2026-07-19", "s": "Restrict project stages by Allowed Users and streamline CRM project UX.", "m": ["inter_project_custom", "inter_sales_custom"], "k": "security"}, {"h": "a851185", "d": "2026-07-16", "s": "Redesign CRM opportunity form into clear two-column sections.", "m": ["crm_tender_bridge", "inter_project_custom", "inter_sales_custom"], "k": "ux"}, {"h": "5f35d43", "d": "2026-07-16", "s": "Add Brands field to CRM opportunities with system cross-filtering.", "m": ["inter_project_custom", "inter_sales_custom"], "k": "ux"}, {"h": "4f22778", "d": "2026-07-15", "s": "Add sale contracts and refine CRM opportunity sales UX.", "m": ["inter_project_custom", "inter_sales_custom"], "k": "ux"}, {"h": "520fbab", "d": "2026-07-13", "s": "Enhance Technical Office service requests with line-level task creation.", "m": ["inter_project_custom", "inter_sales_custom"], "k": "projects"}, {"h": "d918196", "d": "2026-07-08", "s": "Harden CRM backup schedule and fix URN collisions.", "m": ["inter_sales_custom"], "k": "platform"}, {"h": "ddf8058", "d": "2026-06-28", "s": "Fix quotation PDF access for users without project rights.", "m": ["inter_sales_custom"], "k": "security"}, {"h": "c6aa9d0", "d": "2026-06-24", "s": "Add quotation approval CRM buttons and fix apps menu background.", "m": ["alamayah_theme_custom", "inter_sales_custom"], "k": "ux"}, {"h": "20652d6", "d": "2026-06-24", "s": "Fix CRM quotations, project tasks, and sale confirm flows.", "m": ["inter_project_custom", "inter_sales_custom", "sbo1_integration"], "k": "projects"}, {"h": "d3a8931", "d": "2026-06-23", "s": "Fix project tasks action and sync URN on projects/tasks.", "m": ["inter_project_custom"], "k": "projects"}, {"h": "99d1883", "d": "2026-06-22", "s": "Fix production upgrade blocked by orphan rule_group_rel rows.", "m": ["inter_project_custom", "inter_sales_custom"], "k": "platform"}, {"h": "28c1ae6", "d": "2026-06-22", "s": "Add URN bootstrap migration and production recovery script.", "m": ["inter_sales_custom"], "k": "platform"}, {"h": "ec54598", "d": "2026-06-22", "s": "Fix production upgrade migrations for URN rollout.", "m": ["inter_sales_custom"], "k": "platform"}, {"h": "2f0023d", "d": "2026-06-22", "s": "Add unified reference, CRM layout, and system-brand cross-filtering.", "m": ["alamayah_theme_custom", "inter_project_custom", "inter_sales_custom"], "k": "ux"}, {"h": "87684ee", "d": "2026-06-18", "s": "Fix material requisition remaining quantity validation.", "m": ["construction"], "k": "projects"}, {"h": "b59e855", "d": "2026-06-17", "s": "Fix offline Style error and document test/live deployment workflow.", "m": ["alamayah_theme_custom"], "k": "platform"}, {"h": "7c40ad7", "d": "2026-06-16", "s": "Add Alamayah premium theme with unified petrol branding.", "m": ["alamayah_theme_custom"], "k": "ux"}, {"h": "3c13a55", "d": "2026-06-10", "s": "Move service request smart buttons into crm_tender_bridge for reliable deployment.", "m": ["crm_tender_bridge", "inter_project_custom"], "k": "platform"}, {"h": "3d2e571", "d": "2026-06-09", "s": "Add CRM-tender bridge and service request navigation smart buttons.", "m": ["crm_tender_bridge", "inter_project_custom"], "k": "projects"}, {"h": "79045c8", "d": "2026-06-07", "s": "Add contracting install script and server deployment guide.", "m": [], "k": "platform"}, {"h": "8614240", "d": "2026-06-04", "s": "Add extra_mile addons, offline Python wheels, and web_view_info_fix.", "m": ["Extramile_customer_return", "account_payment_multi_deduction", "bi_print_journal_entries", "config", "construction", "cup_is_customer_is_vendor", "eaco_importing", "extra_eaco_edit_importing", "extra_mile", "hide_cost_price", "journal_entry_permissions", "partner_permissions", "product_category_permissions", "product_permissions", "purchase_business_process", "purchase_order_lines_discount", "python_files", "reset_journal_entries", "rowno_in_tree", "server_action_mass_edit", "ssq_login_as_user", "stock_adjustment_delete", "stock_three_steps_custom", "tender", "uom_custom", "web_one2many_auto_resize", "web_view_info_fix"], "k": "platform"}, {"h": "1f8e3f0", "d": "2026-05-20", "s": "change backup path", "m": [], "k": "platform"}, {"h": "3056add", "d": "2026-05-18", "s": "Add automated daily backup scripts for production server2", "m": [], "k": "platform"}, {"h": "2957ced", "d": "2026-05-18", "s": "Add automated daily backup scripts for production server", "m": [], "k": "platform"}, {"h": "b92bc2e", "d": "2026-05-18", "s": "backups", "m": [], "k": "platform"}, {"h": "b14f1e8", "d": "2026-04-23", "s": "integration", "m": ["lead_remote_sync"], "k": "platform"}, {"h": "cc490f1", "d": "2026-04-20", "s": "edit the Alamayha project tasks kanben views", "m": ["project_tasks"], "k": "projects"}, {"h": "ab605cb", "d": "2026-04-15", "s": "new custom to add stages and mange cycle for projects2", "m": ["inter_project_custom", "inter_sales_custom"], "k": "projects"}, {"h": "8ad69f9", "d": "2026-04-15", "s": "new custom to add stages and mange cycle for projects", "m": ["inter_project_custom", "inter_sales_custom", "project_tasks"], "k": "projects"}, {"h": "d0db5c9", "d": "2026-04-09", "s": "Alamayha Project Tasks4", "m": ["project_tasks"], "k": "projects"}, {"h": "b16b73d", "d": "2026-04-08", "s": "Alamayha Project Tasks3", "m": ["inter_project_custom", "project_tasks"], "k": "projects"}, {"h": "a193a04", "d": "2026-04-08", "s": "Alamayha Project Tasks2", "m": ["project_tasks"], "k": "projects"}, {"h": "ed05011", "d": "2026-04-08", "s": "Alamayha Project Tasks", "m": ["inter_project_custom", "project_tasks"], "k": "projects"}, {"h": "0c4e602", "d": "2026-04-06", "s": "rules3", "m": ["project_tasks"], "k": "security"}, {"h": "d7b2a15", "d": "2026-04-06", "s": "rules2", "m": ["project_tasks"], "k": "security"}, {"h": "9992421", "d": "2026-04-06", "s": "rules", "m": ["inter_project_custom", "inter_sales_custom", "project_tasks"], "k": "security"}, {"h": "75c53a0", "d": "2026-03-15", "s": "account.analytic.line3", "m": ["inter_project_custom"], "k": "projects"}, {"h": "5961e44", "d": "2026-03-15", "s": "account.analytic.line2", "m": ["inter_project_custom"], "k": "projects"}, {"h": "f622e16", "d": "2026-03-15", "s": "account.analytic.line", "m": ["inter_project_custom"], "k": "projects"}, {"h": "b92b313", "d": "2026-03-07", "s": "sap", "m": ["sbo1_integration"], "k": "sap"}, {"h": "5cf6a66", "d": "2026-03-04", "s": "customer domain2", "m": ["inter_sales_custom"], "k": "crm"}, {"h": "d2cb100", "d": "2026-03-03", "s": "customer domain", "m": ["inter_sales_custom"], "k": "crm"}, {"h": "151ee73", "d": "2026-02-24", "s": "smart button", "m": ["inter_project_custom"], "k": "projects"}, {"h": "e7025a6", "d": "2026-02-24", "s": "fields", "m": ["inter_project_custom"], "k": "projects"}, {"h": "9ca5899", "d": "2026-02-23", "s": "add menu & views", "m": ["inter_project_custom"], "k": "ux"}, {"h": "4a37854", "d": "2026-02-19", "s": "ks_dashboard_ninja2", "m": ["inter_project_custom"], "k": "insight"}, {"h": "8644c4e", "d": "2026-02-19", "s": "ks_dashboard_ninja", "m": ["inter_project_custom"], "k": "insight"}, {"h": "32f6bd9", "d": "2026-02-18", "s": "tasks3", "m": ["inter_project_custom"], "k": "projects"}, {"h": "29f7bbb", "d": "2026-02-18", "s": "tasks2", "m": ["inter_project_custom"], "k": "projects"}, {"h": "1e58cd9", "d": "2026-02-18", "s": "tasks", "m": ["inter_project_custom"], "k": "projects"}, {"h": "0884e69", "d": "2026-02-16", "s": "add3", "m": ["inter_project_custom"], "k": "projects"}, {"h": "0ff2edb", "d": "2026-02-16", "s": "add2", "m": ["inter_project_custom"], "k": "projects"}, {"h": "bdcf52a", "d": "2026-02-16", "s": "add", "m": ["inter_project_custom", "ir_model_merge_fix"], "k": "projects"}, {"h": "96d1572", "d": "2026-02-16", "s": "tags", "m": ["inter_project_custom"], "k": "projects"}, {"h": "9583a72", "d": "2026-02-15", "s": "reset_to_draft", "m": ["inter_sales_custom"], "k": "crm"}, {"h": "3fc12e2", "d": "2026-02-15", "s": "Add ks_dashboard_ninja Python dependencies for offline install", "m": [], "k": "platform"}, {"h": "9fbd9cf", "d": "2026-02-15", "s": "ks_dashboard_ninja3", "m": ["ks_dashboard_ninja"], "k": "insight"}, {"h": "c303f40", "d": "2026-02-15", "s": "ks_dashboard_ninja2", "m": ["ks_dashboard_ninja"], "k": "insight"}, {"h": "e61fc13", "d": "2026-02-15", "s": "ks_dashboard_ninja", "m": ["ks_dashboard_ninja"], "k": "insight"}, {"h": "e3301a5", "d": "2026-02-12", "s": "stage2", "m": ["inter_project_custom"], "k": "projects"}, {"h": "fddfca9", "d": "2026-02-12", "s": "stage", "m": ["inter_project_custom"], "k": "projects"}, {"h": "b0cf2f0", "d": "2026-02-11", "s": "Reset the linked Technical Office Service Request back to Draft", "m": ["inter_project_custom", "inter_sales_custom"], "k": "projects"}, {"h": "6e8a799", "d": "2026-02-10", "s": "custom2", "m": ["inter_sales_custom"], "k": "crm"}, {"h": "6d6094a", "d": "2026-02-10", "s": "custom", "m": ["inter_project_custom", "inter_sales_custom"], "k": "projects"}, {"h": "d23ccaa", "d": "2026-02-09", "s": "presales", "m": ["inter_project_custom"], "k": "crm"}, {"h": "f9fa3fb", "d": "2026-02-09", "s": "project", "m": ["inter_project_custom", "inter_sales_custom"], "k": "projects"}, {"h": "e2cd1d6", "d": "2026-02-09", "s": "admin custom", "m": ["inter_project_custom"], "k": "security"}, {"h": "bf0d0e4", "d": "2026-02-09", "s": "sopervisor", "m": ["inter_project_custom"], "k": "security"}, {"h": "cbe6bb8", "d": "2026-02-09", "s": "add", "m": ["inter_project_custom"], "k": "projects"}, {"h": "11a8340", "d": "2026-02-08", "s": "error", "m": ["inter_project_custom"], "k": "projects"}, {"h": "802c1aa", "d": "2026-02-08", "s": "all custom of cycle in the quotions tasks for teh servce request", "m": ["inter_project_custom", "inter_sales_custom", "project_tasks"], "k": "projects"}, {"h": "1c80122", "d": "2026-02-03", "s": "some_buttons", "m": ["inter_project_custom", "project_tasks"], "k": "projects"}, {"h": "c194bfd", "d": "2026-02-03", "s": "some_fields", "m": ["inter_project_custom"], "k": "projects"}, {"h": "c62c751", "d": "2026-02-01", "s": "add read access5", "m": ["timesheets_custom"], "k": "security"}, {"h": "0a162f8", "d": "2026-02-01", "s": "add read access4", "m": ["timesheets_custom"], "k": "security"}, {"h": "7e87ba0", "d": "2026-02-01", "s": "add read access3", "m": ["timesheets_custom"], "k": "security"}, {"h": "35e83f8", "d": "2026-02-01", "s": "add read access2", "m": ["inter_project_custom"], "k": "security"}, {"h": "c30cb3f", "d": "2026-02-01", "s": "add read access", "m": ["inter_project_custom"], "k": "security"}, {"h": "32d90c2", "d": "2026-01-31", "s": "add3", "m": ["inter_project_custom"], "k": "projects"}, {"h": "f0c8efb", "d": "2026-01-31", "s": "add2", "m": ["inter_project_custom"], "k": "projects"}, {"h": "f54c5bb", "d": "2026-01-31", "s": "add", "m": ["inter_project_custom"], "k": "projects"}, {"h": "1702597", "d": "2026-01-29", "s": "installtion manager works3", "m": ["inter_project_custom"], "k": "platform"}, {"h": "9b2bc57", "d": "2026-01-29", "s": "installtion manager works2", "m": ["inter_project_custom"], "k": "platform"}, {"h": "a5627e2", "d": "2026-01-29", "s": "installtion manager works", "m": ["inter_project_custom"], "k": "platform"}, {"h": "71503d1", "d": "2026-01-29", "s": "installtion manager", "m": ["inter_project_custom"], "k": "platform"}, {"h": "6b3ba7d", "d": "2026-01-28", "s": "add project atuomaticaaly to task stages", "m": ["inter_project_custom", "project_tasks"], "k": "projects"}, {"h": "46b01f4", "d": "2026-01-28", "s": "system and rules", "m": ["inter_project_custom", "inter_sales_custom"], "k": "security"}, {"h": "bffd5b4", "d": "2026-01-27", "s": "project field tn the task", "m": ["inter_project_custom"], "k": "projects"}, {"h": "d087645", "d": "2026-01-27", "s": "rules", "m": ["inter_project_custom"], "k": "security"}, {"h": "87bd7fc", "d": "2026-01-27", "s": "custom6", "m": ["inter_project_custom"], "k": "projects"}, {"h": "a5c3eac", "d": "2026-01-27", "s": "custom5", "m": ["inter_project_custom", "inter_sales_custom"], "k": "projects"}, {"h": "e9f6e73", "d": "2026-01-27", "s": "custom4", "m": ["inter_sales_custom"], "k": "crm"}, {"h": "747c95c", "d": "2026-01-27", "s": "custom3", "m": ["inter_sales_custom"], "k": "crm"}, {"h": "560e988", "d": "2026-01-27", "s": "custom2", "m": ["inter_sales_custom"], "k": "crm"}, {"h": "92d936c", "d": "2026-01-27", "s": "custom", "m": ["inter_project_custom", "inter_sales_custom"], "k": "projects"}, {"h": "84f92ad", "d": "2026-01-26", "s": "custom", "m": ["inter_project_custom", "inter_sales_custom"], "k": "projects"}, {"h": "6c30fb6", "d": "2026-01-25", "s": "mail", "m": ["inter_sales_custom"], "k": "notify"}, {"h": "e527040", "d": "2026-01-20", "s": "report custom2", "m": ["inter_sales_custom"], "k": "insight"}, {"h": "d600fb2", "d": "2026-01-17", "s": "print", "m": ["inter_sales_custom"], "k": "insight"}, {"h": "40287aa", "d": "2026-01-12", "s": "add project custom", "m": ["inter_project_custom", "inter_sales_custom"], "k": "projects"}, {"h": "074fb47", "d": "2025-12-31", "s": "last2", "m": ["inter_sales_custom"], "k": "crm"}, {"h": "423905d", "d": "2025-12-30", "s": "add new report6", "m": ["inter_sales_custom"], "k": "insight"}, {"h": "3ecec28", "d": "2025-12-30", "s": "add new report5", "m": ["inter_project_custom"], "k": "insight"}, {"h": "db18bf1", "d": "2025-12-30", "s": "add new report4", "m": ["inter_project_custom"], "k": "insight"}, {"h": "b54ff73", "d": "2025-12-30", "s": "add new report3", "m": ["inter_sales_custom"], "k": "insight"}, {"h": "a35593b", "d": "2025-12-30", "s": "add new report2", "m": ["inter_sales_custom"], "k": "insight"}, {"h": "2e68f44", "d": "2025-12-30", "s": "add new report", "m": ["inter_sales_custom"], "k": "insight"}, {"h": "2733f46", "d": "2025-12-30", "s": "add", "m": ["inter_sales_custom"], "k": "crm"}, {"h": "58735ba", "d": "2025-12-29", "s": "add", "m": ["inter_project_custom", "inter_sales_custom"], "k": "projects"}, {"h": "e6303ea", "d": "2025-12-29", "s": "rules", "m": ["inter_project_custom"], "k": "security"}, {"h": "136a7c8", "d": "2025-12-22", "s": "add", "m": ["inter_project_custom", "inter_sales_custom", "timesheets_custom"], "k": "projects"}, {"h": "a495194", "d": "2025-12-07", "s": "fix_bugs", "m": ["inter_project_custom"], "k": "projects"}, {"h": "752e7d6", "d": "2025-12-07", "s": "add4", "m": ["account_sap_integration", "advance_purchase_stock", "auditlog", "create_purchase_from_stock", "hr_base", "hr_docs_expiry", "hr_holidays_community", "inter_project_custom", "inter_sales_custom", "is_customer_is_vendor", "muk_web_appsbar", "muk_web_chatter", "muk_web_colors", "muk_web_dialog", "muk_web_theme", "odex25_global_discount", "odoo_sap_integration", "report_xlsx", "sale_order_qty_change_no_recompute", "sbo1_integration", "stock_approve", "timesheets_custom", "to_base", "to_safe_confirm_button", "web_upload_limit"], "k": "ux"}, {"h": "72c725e", "d": "2025-12-07", "s": "add3", "m": ["project_tasks"], "k": "projects"}, {"h": "5f0b671", "d": "2025-12-07", "s": "add2", "m": ["account_sap_integration", "advance_purchase_stock", "auditlog", "create_purchase_from_stock", "hr_base", "hr_docs_expiry", "hr_holidays_community", "inter_project_custom", "inter_sales_custom", "is_customer_is_vendor", "muk_web_appsbar", "muk_web_chatter", "muk_web_colors", "muk_web_dialog", "muk_web_theme", "odex25_global_discount", "odoo_sap_integration", "project_tasks", "report_xlsx", "sale_order_qty_change_no_recompute", "sbo1_integration", "stock_approve", "timesheets_custom", "to_base", "to_safe_confirm_button", "web_upload_limit"], "k": "ux"}, {"h": "308f174", "d": "2025-12-03", "s": "add_dis_custom", "m": ["odex25_global_discount"], "k": "crm"}, {"h": "79bab80", "d": "2025-12-01", "s": "discount", "m": ["inter_project_custom", "inter_sales_custom"], "k": "crm"}, {"h": "cbccbd8", "d": "2025-11-23", "s": "add_costs", "m": ["inter_sales_custom"], "k": "crm"}, {"h": "4288d9d", "d": "2025-11-18", "s": "edit field2", "m": ["inter_sales_custom"], "k": "crm"}, {"h": "e4ddac3", "d": "2025-11-18", "s": "edit field", "m": ["inter_sales_custom"], "k": "crm"}, {"h": "70b1333", "d": "2025-11-18", "s": "solve js files error", "m": ["inter_project_custom", "inter_sales_custom"], "k": "ux"}, {"h": "c81e686", "d": "2025-11-16", "s": "add_email_setting2", "m": ["inter_sales_custom"], "k": "notify"}, {"h": "54ee37a", "d": "2025-11-16", "s": "add_email_setting", "m": ["inter_project_custom", "inter_sales_custom"], "k": "notify"}, {"h": "c0711f7", "d": "2025-11-16", "s": "access", "m": ["inter_project_custom", "inter_sales_custom"], "k": "security"}, {"h": "dbd0801", "d": "2025-11-13", "s": "add_custom", "m": ["inter_project_custom", "inter_sales_custom", "project_tasks"], "k": "projects"}, {"h": "691c7c2", "d": "2025-11-09", "s": "add_project_tasks", "m": ["project_tasks"], "k": "projects"}, {"h": "4c6e75e", "d": "2025-11-06", "s": "add", "m": ["inter_sales_custom"], "k": "crm"}, {"h": "6531ac9", "d": "2025-11-05", "s": "change_mail_notifi", "m": ["inter_project_custom", "inter_sales_custom"], "k": "notify"}, {"h": "29ed861", "d": "2025-11-04", "s": "mail_task_edit2", "m": ["inter_project_custom"], "k": "notify"}, {"h": "7db9dc7", "d": "2025-11-04", "s": "mail_task_edit", "m": ["inter_project_custom", "inter_sales_custom"], "k": "notify"}, {"h": "e05a455", "d": "2025-11-03", "s": "add aowrd lost edit", "m": ["inter_sales_custom"], "k": "crm"}, {"h": "2e49fa5", "d": "2025-11-03", "s": "add aowrd lost edit", "m": ["hr_docs_expiry", "inter_project_custom", "inter_sales_custom"], "k": "hr"}, {"h": "3acce6a", "d": "2025-11-03", "s": "remove_bugs_rules", "m": ["inter_project_custom"], "k": "security"}, {"h": "96538b2", "d": "2025-11-02", "s": "add_custom", "m": ["hr_docs_expiry", "inter_project_custom", "inter_sales_custom"], "k": "hr"}, {"h": "0d301f3", "d": "2025-10-29", "s": "add", "m": ["inter_sales_custom"], "k": "crm"}, {"h": "57a90ce", "d": "2025-10-29", "s": "service_request_view_kanban[custom]", "m": ["inter_sales_custom"], "k": "projects"}, {"h": "223d7fa", "d": "2025-10-29", "s": "usto_of{expected_revenue}m", "m": ["inter_project_custom"], "k": "projects"}, {"h": "9e46b5f", "d": "2025-10-28", "s": "add_python", "m": [], "k": "platform"}, {"h": "06acc3c", "d": "2025-10-28", "s": "custom", "m": [], "k": "platform"}, {"h": "1f97589", "d": "2025-10-28", "s": "solve+bug", "m": ["inter_project_custom"], "k": "projects"}, {"h": "8337dcc", "d": "2025-10-28", "s": "add option excel product", "m": ["inter_project_custom"], "k": "insight"}, {"h": "acab476", "d": "2025-10-27", "s": "add_custom", "m": ["inter_sales_custom"], "k": "crm"}, {"h": "4ceaaf2", "d": "2025-10-26", "s": "print_custom", "m": ["inter_sales_custom"], "k": "insight"}, {"h": "18745b4", "d": "2025-10-23", "s": "add_rules_and_custom", "m": ["inter_project_custom", "inter_sales_custom", "web_upload_limit"], "k": "security"}, {"h": "f0ec5ee", "d": "2025-10-19", "s": "report_discount5", "m": ["inter_sales_custom"], "k": "insight"}, {"h": "4565ad9", "d": "2025-10-19", "s": "report_discount4", "m": ["inter_sales_custom"], "k": "insight"}, {"h": "904086c", "d": "2025-10-19", "s": "report_discount3", "m": ["inter_sales_custom"], "k": "insight"}, {"h": "37fa2af", "d": "2025-10-19", "s": "report_discount2", "m": ["inter_sales_custom"], "k": "insight"}, {"h": "2a3dad1", "d": "2025-10-16", "s": "report_discount", "m": ["inter_sales_custom"], "k": "insight"}, {"h": "4fb37ed", "d": "2025-10-15", "s": "add_mail_custom", "m": ["inter_sales_custom"], "k": "notify"}, {"h": "45b16e9", "d": "2025-10-14", "s": "get_finishing_date_expiration", "m": ["inter_sales_custom"], "k": "crm"}, {"h": "018dd30", "d": "2025-10-14", "s": "add_custom_of_color", "m": ["inter_project_custom", "inter_sales_custom"], "k": "ux"}, {"h": "a1b28f6", "d": "2025-10-12", "s": "add_email_custom", "m": ["inter_sales_custom"], "k": "notify"}, {"h": "62f0eb5", "d": "2025-10-05", "s": "fix_errors6", "m": ["inter_project_custom", "inter_sales_custom", "timesheets_custom"], "k": "projects"}, {"h": "61beb5f", "d": "2025-10-05", "s": "fix_errors", "m": ["inter_sales_custom"], "k": "crm"}, {"h": "d9b9cc7", "d": "2025-10-02", "s": "attachment8", "m": ["inter_sales_custom"], "k": "crm"}, {"h": "e3d7933", "d": "2025-10-02", "s": "attachment7", "m": ["inter_sales_custom", "timesheets_custom"], "k": "crm"}, {"h": "315ec72", "d": "2025-10-01", "s": "attachment6", "m": ["inter_sales_custom", "timesheets_custom"], "k": "crm"}, {"h": "7a86a7c", "d": "2025-10-01", "s": "attachment5", "m": ["timesheets_custom"], "k": "projects"}, {"h": "edb16a6", "d": "2025-10-01", "s": "attachment4", "m": ["timesheets_custom"], "k": "projects"}, {"h": "b81da4f", "d": "2025-10-01", "s": "fix_print", "m": ["inter_sales_custom"], "k": "insight"}, {"h": "59b64ea", "d": "2025-10-01", "s": "attachment3", "m": ["inter_sales_custom", "timesheets_custom"], "k": "crm"}, {"h": "8a0549c", "d": "2025-10-01", "s": "attachment2", "m": ["inter_sales_custom"], "k": "crm"}, {"h": "2cd15fb", "d": "2025-10-01", "s": "attachment", "m": ["inter_sales_custom", "timesheets_custom"], "k": "crm"}, {"h": "fbf16ff", "d": "2025-09-29", "s": "reports_custom", "m": ["inter_sales_custom"], "k": "insight"}, {"h": "91ec354", "d": "2025-09-29", "s": "reports_counter", "m": ["inter_sales_custom"], "k": "insight"}, {"h": "5a1131e", "d": "2025-09-27", "s": "edit_project_template", "m": ["inter_project_custom", "inter_sales_custom"], "k": "projects"}, {"h": "2b2bb1c", "d": "2025-09-21", "s": "edit2", "m": ["inter_sales_custom"], "k": "crm"}, {"h": "09597ce", "d": "2025-09-21", "s": "edit", "m": ["inter_sales_custom"], "k": "crm"}, {"h": "054bea8", "d": "2025-09-21", "s": "edit(action_returned_to_received)", "m": ["inter_sales_custom"], "k": "crm"}, {"h": "938bc64", "d": "2025-09-21", "s": "add service menu access to sectore manager", "m": ["inter_sales_custom", "muk_web_appsbar", "muk_web_chatter", "muk_web_colors", "muk_web_dialog", "muk_web_theme"], "k": "security"}, {"h": "56b99bb", "d": "2025-09-21", "s": "add service menu access to sectore manager", "m": ["inter_project_custom"], "k": "security"}, {"h": "5e713de", "d": "2025-09-19", "s": "add python7", "m": [], "k": "platform"}, {"h": "5b87e72", "d": "2025-09-19", "s": "add python6", "m": [], "k": "platform"}, {"h": "2eb31ca", "d": "2025-09-19", "s": "add python5", "m": [], "k": "platform"}, {"h": "4c89cb0", "d": "2025-09-19", "s": "add python4", "m": [], "k": "platform"}, {"h": "488f471", "d": "2025-09-19", "s": "add python3", "m": [], "k": "platform"}, {"h": "480d8c6", "d": "2025-09-19", "s": "add python", "m": [], "k": "platform"}, {"h": "f21b08f", "d": "2025-09-18", "s": "add", "m": ["web_cohort"], "k": "insight"}, {"h": "d787b3c", "d": "2025-09-18", "s": "add", "m": ["account_sap_integration", "auditlog", "hr_base", "hr_docs_expiry", "hr_holidays_community", "inter_project_custom", "inter_sales_custom", "is_customer_is_vendor", "odex25_global_discount", "odoo_sap_integration", "report_xlsx", "sale_order_qty_change_no_recompute", "timesheets_custom", "to_base", "to_safe_confirm_button", "web_cohort"], "k": "crm"}, {"h": "7b76761", "d": "2025-09-18", "s": "Create README.md", "m": [], "k": "platform"}], "stats": {"commits": 241, "days": 18, "modules": 165, "first": "2025-09-18", "last": "2026-11-09"}, "modules": [["inter_sales_custom", 106], ["inter_project_custom", 104], ["appointment_management_system", 48], ["kaya_inventory_custom", 32], ["biometric_device_integration", 29], ["lawyer_office", 26], ["installment_management", 25], ["trip_spare_parts", 22], ["rabeh_boq", 19], ["mai_e_invoice_ksa", 18], ["project_tasks", 17], ["hyperpay_api_integration", 16], ["rabeh_digital", 15], ["timesheets_custom", 14], ["kaya_public_booking", 14], ["biometric_attendance_payroll", 14], ["oto_shipping_integration", 12], ["sms_mobile_sa_otp", 12], ["sbo1_integration", 8], ["hr_docs_expiry", 6], ["smart_notification_center", 5], ["alamayah_theme_custom", 5]]};
+const DOMAINS = {
+  ecom:{c:'#f6b45c',ar:'التجارة الإلكترونية والمدفوعات والصالونات',en:'E-Commerce, POS & Salons',dar:'حجوزات الصالونات، نقاط البيع، بوابات الدفع HyperPay/QIB، الشحن OTO، والفاتورة الإلكترونية ZATCA.',den:'Salon booking, OWL POS, HyperPay/QIB gateways, OTO shipping and Saudi ZATCA e-invoicing.'},
+  verticals:{c:'#5fb4ff',ar:'أنظمة القطاعات المتخصصة',en:'Vertical Industry ERPs',dar:'مكاتب المحاماة، رحلات الاستيراد وقطع الغيار، محلات التقسيط بالباركود، الفنادق، والعيادات.',den:'Law offices, auto spare parts & import trips, barcode installment shops, hotels and clinics.'},
+  crm:{c:'#19b3a6',ar:'المبيعات وإدارة العملاء',en:'Sales & CRM',dar:'الفرص، عروض الأسعار، الخصومات، العقود، الرقم الموحد، والبحث برقم الموديل.',den:'Opportunities, quotations, discounts, contracts, unified reference and Model No search.'},
+  projects:{c:'#7ee8d6',ar:'المشاريع والمكتب الفني',en:'Projects & Technical Office',dar:'طلبات الخدمة، دورة المكتب الفني والتركيبات، المهام، المراحل، والتايم شيت.',den:'Service requests, technical office and installation cycles, tasks, stages and timesheets.'},
+  sap:{c:'#f6b45c',ar:'التكامل مع ساب',en:'SAP Business One',dar:'المبيعات والمشتريات والمخزون مع ساب، مزامنة ليلية، وتسريع الأسعار.',den:'Sales, purchase and stock with SAP, nightly sync and faster price lookups.'},
+  security:{c:'#ef6f6c',ar:'الصلاحيات والأمان',en:'Access & Security',dar:'قواعد الوصول، صلاحيات المنتجات والعملاء، والمستخدمين المسموح لهم.',den:'Record rules, product and partner permissions, allowed users.'},
+  notify:{c:'#b28cff',ar:'الإشعارات والتنظيم',en:'Notifications & Planning',dar:'مركز الإشعارات، تصعيد المتابعات، إيميلات المكتب الفني، وبرنامج تنظيم الوقت.',den:'Notification Center, follow-up escalation, technical office alerts and Time Planner.'},
+  insight:{c:'#5fb4ff',ar:'التقارير والتدقيق',en:'Reports & Audit',dar:'تقارير عروض الأسعار، لوحات المتابعة، إكسل، وسجل التدقيق اليومي.',den:'Quotation reports, dashboards, Excel and the daily audit trail.'},
+  ux:{c:'#ffd166',ar:'الشكل وتجربة المستخدم',en:'Experience & Brand',dar:'ثيم الشركة، شاشة الدخول، إعادة تصميم الفرص، والترجمة.',den:'Company theme, login, opportunity redesign and translations.'},
+  supply:{c:'#9ad17b',ar:'المشتريات والمخزون',en:'Purchase & Stock',dar:'الشراء من المخزون، اعتماد الحركات، وطلبات المواد.',den:'Purchase from stock, stock approvals and material requisitions.'},
+  hr:{c:'#ff9f80',ar:'الموارد البشرية والمحاسبة',en:'HR & Accounting',dar:'ملفات الموظفين، انتهاء المستندات، الإجازات، وأدوات المحاسبة.',den:'Employee files, document expiry, leaves and accounting kit.'},
+  platform:{c:'#8fb3bd',ar:'البنية والنشر',en:'Platform & Delivery',dar:'النسخ الاحتياطي، النشر من غير إنترنت، الترقيات، وأدلة التشغيل.',den:'Backups, offline deployment, upgrades and runbooks.'}
+};
+const PHASES = [
+  {from:'2025-09',to:'2025-12',ar:'التأسيس',en:'Foundation',
+   iar:['دورة طلبات الخدمة الأولى وشاشاتها','تقارير عروض الأسعار والخصومات والمرفقات','إيميلات مخصصة وتنبيهات تواريخ الانتهاء','نظام الدعم الفني والترجمة العربية'],
+   ien:['First service-request cycle and screens','Quotation reports, discounts and attachments','Custom emails and expiry reminders','Helpdesk and Arabic translation']},
+  {from:'2026-01',to:'2026-04',ar:'الدورة الكاملة وساب',en:'Full cycle & SAP',
+   iar:['دورة مدير التركيبات من البداية للنهاية','ربط المبيعات والمشتريات مع ساب','قواعد صلاحيات حسب الدور','لوحات متابعة، ومراحل المشاريع، والتايم شيت'],
+   ien:['End-to-end installation manager cycle','Sales and purchase integration with SAP','Role-based access rules','Dashboards, project stages and timesheets']},
+  {from:'2026-05',to:'2026-06',ar:'الوصول للإنتاج',en:'Going to production',
+   iar:['نسخ احتياطي يومي أوتوماتيك','تثبيت مكتبات بايثون من غير إنترنت','جسر الفرص والمناقصات','ثيم الشركة الكامل، ورقم مرجعي موحد بترحيل آمن'],
+   ien:['Automated daily backups','Offline Python wheels for servers without internet','CRM ↔ tender bridge','Full brand theme and unified reference with safe migration']},
+  {from:'2026-07',to:'2026-08',ar:'التجربة والرؤية',en:'Experience & insight',
+   iar:['إعادة تصميم شاشة الفرصة','العلامات والأنظمة بفلترة متبادلة، وعقود البيع','مهام على مستوى سطر طلب الخدمة، وسجل العمالة والمستندات','سجل تدقيق يومي بلوحة، ومتابعات بتصعيد 24/48/72 ساعة'],
+   ien:['Opportunity form redesign','Brands × systems cross-filter, sale contracts','Line-level tasks, labor logs and unified documents','Daily audit trail dashboard, 24/48/72h follow-up escalation']},
+  {from:'2026-09',to:'2026-10',ar:'الاعتمادية والتوسع',en:'Reliability & scale',
+   iar:['تطبيق المستندات بمجلدات وصلاحيات','مركز الإشعارات، وبرنامج تنظيم الوقت','مزامنة ساب ليلية، وتسريع الأسعار والمخزون','البحث برقم الموديل، والمستخدمين المسموح لهم بالمنتج، وإصلاح حوادث اللايف'],
+   ien:['Folder-based Documents with rights','Notification Center and Time Planner','Nightly SAP sync, faster price and stock','Model No search, product allowed users, LIVE incident fixes']}
+];
+const CASES = [
+  {"when": "Oct 2026", "ar": "انزلاق توقيت البصمات 3 ساعات على أجهزة ZKTeco", "en": "3-hour biometric punch drift on ZKTeco devices", "car": "التقرير القديم كان يقرأ تاريخ التحميل (write_date) بدل وقت البصمة الفعلي، وحقل المنطقة الزمنية كان يتحول تلقائياً لـ UTC عند فراغه.", "cen": "Legacy reports read write_date instead of punching_time, and empty device timezones silently defaulted to UTC.", "far": "ربط التقارير بـ punching_time، وإجبار تحديد المنطقة الزمنية، وإضافة فحص تلقائي لفرق ساعة الجهاز (Clock Difference) عند كل اتصال.", "fen": "Switched to punching_time, enforced explicit Device Timezone, and added automatic Clock Difference detection on connect.", "rar": "دقة 100% في حساب التأخير والانصراف والرواتب عبر كل الفروع.", "ren": "100% accurate attendance and payroll calculations across all branches."}, {"when": "Oct 2026", "ar": "تأمين بوابة الموكلين ومنع تسريب البيانات عبر الـ API", "en": "Zero-trust Client Portal security in Law Office ERP", "car": "منح صلاحيات قراءة مباشرة لمستخدم البوابة (portal) على جدول القضايا كان يسمح باستدعاء الحقول الداخلية والملاحظات عبر JSON-RPC.", "cen": "Granting model read access to portal users exposed internal case notes and legal deadlines via direct RPC calls.", "far": "إلغاء صلاحيات الجداول لمستخدم البوابة تماماً، والتحقق الصريح من ملكية القضية ونشرها داخل الـ Controller مع عرض قائمة بيضاء فقط من الحقول.", "fen": "Removed table-level portal ACLs; enforced explicit ownership checks in the controller and whitelisted rendered fields.", "rar": "رفض تام لأي استدعاء API خارجي وحماية كاملة لسرية القضايا والملاحظات الداخلية.", "ren": "Direct API calls blocked; internal notes and legal deadlines completely isolated."}, {"when": "Sep 2026", "ar": "انهيار شاشة الكاشير عند تطبيق نقاط الولاء في POS", "en": "POS screen crash on loyalty reward redemption", "car": "خطأ تدمير مكون OWL (Component Destruction Error) في موديول الولاء عند تبديل العميل أو تطبيق خصم الولاء السريع في أودو 17.", "cen": "OWL component lifecycle crash in POS loyalty when switching customers or applying tier rewards rapidly.", "far": "تطوير موديول علاجي (pos_loyalty_fix & partner_loyalty_tiers) يعالج دورة حياة المكون ويفلتر المكافآت بأمان.", "fen": "Shipped pos_loyalty_fix & partner_loyalty_tiers to guard OWL component state and safely filter rewards.", "rar": "استقرار كامل لنقاط البيع في أوقات الذروة بجميع فروع الصالون.", "ren": "Zero POS crashes during peak salon hours across all branches."},
+  {when:'Sep 2026',ar:'شاشة بيضا على اللايف',en:'White screen on LIVE',
+   car:'ملفات الواجهة بترجع خطأ 400، لأن موديول بيشاور على ملف جافاسكريبت اتغير اسمه.',cen:'UI assets returned 400 because a module pointed to a renamed JavaScript file.',
+   far:'تصليح سجلات الملفات، وتحديث الموديول، وإعادة بناء ملفات الواجهة.',fen:'Fixed asset records, upgraded the module, regenerated bundles.',
+   rar:'السيستم رجع، واتكتب دليل خطوة بخطوة.',ren:'System back; step-by-step playbook written.'},
+  {when:'Sep 2026',ar:'الرسايل بتفشل على الدومين',en:'Messaging failing on the domain',
+   car:'إعداد البروكسي اتقفل، والرابط الأساسي رجع لعنوان داخلي.',cen:'Proxy mode switched off and base URL fell back to an internal address.',
+   far:'رجوع إعداد البروكسي، وتثبيت الرابط الآمن.',fen:'Restored proxy mode and pinned the HTTPS base URL.',
+   rar:'الرسايل والدخول من الدومين اشتغلوا تاني.',ren:'Messaging and domain login restored.'},
+  {when:'Jun 2026',ar:'ترقية الإنتاج متوقفة',en:'Production upgrade blocked',
+   car:'سجلات صلاحيات يتيمة، وترحيل الرقم المرجعي على بيانات قديمة.',cen:'Orphan access rows and the unified-reference migration on legacy data.',
+   far:'ترحيل تمهيدي، وسكريبت استرجاع للإنتاج.',fen:'Bootstrap migration plus a production recovery script.',
+   rar:'الترقية عدّت من غير فقد بيانات.',ren:'Upgrade completed with no data loss.'},
+  {when:'Oct 2026',ar:'عرض السعر بطيء مع ساب',en:'Slow quotations with SAP',
+   car:'من السجلات: كل اختيار منتج بيستنى ساب من 4 لـ7 ثواني، واتصالات متكررة.',cen:'From logs: each product pick waited 4–7 s on SAP, with repeated calls.',
+   far:'ذاكرة مؤقتة، وجلسة ساب مشتركة، واتصال مفتوح، وحد أقصى للانتظار.',fen:'Short cache, shared SAP session, keep-alive and a timeout.',
+   rar:'تكرار الكمية والمنتج بقى شبه فوري.',ren:'Repeat lookups became near-instant.'},
+  {when:'Oct 2026',ar:'إيميلات ما بتخرجش',en:'Silent email outage',
+   car:'الإيميلات كانت بتفشل من غير ما حد ياخد باله، بسبب انتهاء مفتاح الربط مع مايكروسوفت.',cen:'Emails were failing silently: an expired Microsoft app secret.',
+   far:'تشخيص من سجل الإيميلات، وتحديد السبب بالظبط، وبالتنسيق مع تقنية المعلومات اتجدد الربط.',fen:'Diagnosed from the mail queue, pinpointed the cause, and the link was renewed with IT.',
+   rar:'الإيميلات رجعت تخرج تاني بشكل طبيعي.',ren:'Emails are flowing again.'},
+  {when:'Oct 2026',ar:'ترقية كانت هتفشل على اللايف',en:'An upgrade that would have failed',
+   car:'نسخة جديدة من موديول بتستخدم أيقونة أودو 18 ما بيقبلهاش.',cen:'A new module version used a menu icon Odoo 18 rejects.',
+   far:'بروفة على نسخة من اللايف، ومقارنة البيانات قبل وبعد.',fen:'Rehearsal on a LIVE copy with before/after data fingerprints.',
+   rar:'اتصلحت قبل النشر، والبيانات متطابقة 100%.',ren:'Fixed before deploy; data identical.'}
+];
+const METHOD = [
+  {ar:'نسخة من اللايف على جهازي',en:'LIVE copy locally',dar:'كل تعديل بيتجرب على بيانات حقيقية قبل أي نشر.',den:'Every change is rehearsed on real data first.'},
+  {ar:'بصمة البيانات',en:'Data fingerprints',dar:'مقارنة البيانات قبل وبعد الترقية، علشان نضمن مفيش ضياع.',den:'Before/after checksums prove nothing was lost.'},
+  {ar:'تجربة ثم إنتاج',en:'TEST → LIVE',dar:'سيرفر تجربة الأول، بعدين الإنتاج بنفس الخطوات.',den:'Same steps on TEST, then LIVE.'},
+  {ar:'نشر من غير إنترنت',en:'Offline delivery',dar:'المكتبات بتتجهز وتتحفظ في المستودع، وتتثبت على السيرفر من غير إنترنت.',den:'Python wheels shipped in git and installed offline.'},
+  {ar:'السبب قبل الحل',en:'Root cause first',dar:'السجلات والبيانات الأول، مش التخمين.',den:'Logs and data before theories.'},
+  {ar:'أدلة مكتوبة',en:'Written playbooks',dar:'كل حادثة بيتكتب لها دليل، علشان ما تتكررش.',den:'Every incident becomes a runbook.'}
+];
+
+let lang = 'ar';
+const T = (o, k) => lang === 'ar' ? o[k + 'ar'] ?? o.ar : o[k + 'en'] ?? o.en;
+const commits = DATA.commits;
+const S = DATA.stats;
+const monthsSpan = (() => { const [y1,m1]=S.first.split('-').map(Number), [y2,m2]=S.last.split('-').map(Number); return (y2-y1)*12+(m2-m1)+1; })();
+const counts = {commits:450, days:18, modules:165, months:11};
+const byMonth = {}; commits.forEach(c => { const m=c.d.slice(0,7); byMonth[m]=(byMonth[m]||0)+1; });
+const byDomain = {}; commits.forEach(c => byDomain[c.k]=(byDomain[c.k]||0)+1);
+const monthName = m => new Date(m+'-01T00:00:00').toLocaleDateString(lang==='ar'?'ar-EG':'en-GB',{month:'short',year:'2-digit'});
+
+function animateCounts(){
+  document.querySelectorAll('[data-count]').forEach(el => {
+    const target = counts[el.dataset.count]; const t0 = performance.now();
+    const step = t => { const p=Math.min(1,(t-t0)/1400); el.textContent = Math.round(target*(1-Math.pow(1-p,3))); if(p<1) requestAnimationFrame(step); };
+    requestAnimationFrame(step);
+  });
+}
+
+function heatmap(){
+  const perDay = {}; commits.forEach(c => perDay[c.d]=(perDay[c.d]||0)+1);
+  const start = new Date(S.first+'T00:00:00'); start.setDate(start.getDate()-start.getDay());
+  const end = new Date(S.last+'T00:00:00');
+  const cell=13, gap=3, svg=document.getElementById('heat');
+  const weeks = Math.ceil(((end-start)/864e5+1)/7);
+  const vw = weeks*(cell+gap)+4, vh = 7*(cell+gap)+20;
+  svg.setAttribute('viewBox', `0 0 ${vw} ${vh}`); svg.setAttribute('width', '100%');
+  const color = n => n===0?'#11303c':n<2?'#0f6b7a':n<4?'#19b3a6':'#7ee8d6';
+  let html='', lastM=-1;
+  for(let d=new Date(start), i=0; d<=end; d.setDate(d.getDate()+1), i++){
+    const w=Math.floor(i/7), wd=d.getDay(), key=d.toISOString().slice(0,10).replace(/T.*/,'');
+    const local = new Date(d.getTime()-d.getTimezoneOffset()*6e4).toISOString().slice(0,10);
+    const n = perDay[local]||0;
+    if(wd===0 && d.getMonth()!==lastM){ lastM=d.getMonth(); html+=`<text x="${w*(cell+gap)}" y="10" fill="#8fb3bd" font-size="10">${d.toLocaleDateString('en-GB',{month:'short'})}</text>`; }
+    html+=`<rect style="transition-delay:${w*14+wd*20}ms" x="${w*(cell+gap)}" y="${16+wd*(cell+gap)}" width="${cell}" height="${cell}" rx="3" fill="${color(n)}"><title>${local} — ${n} commit${n===1?'':'s'}</title></rect>`;
+  }
+  svg.innerHTML = html;
+}
+
+function bars(){
+  const months = Object.keys(byMonth).sort(), max = Math.max(...Object.values(byMonth));
+  document.getElementById('bars').innerHTML = months.map(m =>
+    `<div class="bar"><span class="v">${byMonth[m]}</span><div class="col" style="height:${byMonth[m]/max*130}px"></div><span class="m">${monthName(m)}</span></div>`).join('');
+}
+
+function phases(){
+  document.getElementById('phases').innerHTML = PHASES.map((p,i) => {
+    const n = commits.filter(c => c.d.slice(0,7)>=p.from && c.d.slice(0,7)<=p.to).length;
+    const items = (lang==='ar'?p.iar:p.ien).map(x=>`<li>${x}</li>`).join('');
+    return `<div class="phase"><div class="dot">${i+1}</div><div class="body"><span class="count ltr">${n} commits</span>
+      <div class="when ltr">${monthName(p.from)} → ${monthName(p.to)}</div><h3>${T(p,'')}</h3><ul>${items}</ul></div></div>`;
+  }).join('');
+}
+
+function domains(){
+  const max = Math.max(...Object.values(byDomain));
+  const keys = Object.keys(DOMAINS).filter(k => byDomain[k]).sort((a,b)=>byDomain[b]-byDomain[a]);
+  document.getElementById('doms').innerHTML = keys.map(k => { const d=DOMAINS[k];
+    return `<div class="dom" style="--c:${d.c}" data-k="${k}"><div class="n">${byDomain[k]}</div><h3>${lang==='ar'?d.ar:d.en}</h3>
+      <p>${lang==='ar'?d.dar:d.den}</p><div class="meter"><i data-w="${byDomain[k]/max*100}"></i></div></div>`; }).join('');
+  document.querySelectorAll('.dom').forEach(el => el.onclick = () => { filt.k = el.dataset.k; renderChips(); renderLog(true); document.getElementById('explorer').scrollIntoView(); });
+}
+
+function cases(){
+  const L = lang==='ar' ? ['السبب','الحل','النتيجة'] : ['Cause','Fix','Result'];
+  document.getElementById('cases').innerHTML = CASES.map(c => `<div class="case reveal"><div class="tag ltr">${c.when}</div><h3>${T(c,'')}</h3>
+    <dl><dt>${L[0]}</dt><dd>${T(c,'c')}</dd><dt>${L[1]}</dt><dd>${T(c,'f')}</dd><dt>${L[2]}</dt><dd>${T(c,'r')}</dd></dl></div>`).join('');
+}
+
+function method(){
+  document.getElementById('method-items').innerHTML = METHOD.map(m => `<div class="m-item"><b>${T(m,'')}</b><span>${T(m,'d')}</span></div>`).join('');
+  const max = DATA.modules[0][1];
+  document.getElementById('mods').innerHTML = DATA.modules.map(([m,n]) => `<div class="mod"><code>${m}</code><div class="t"><i data-w="${n/max*100}"></i></div><span class="c">${n}</span></div>`).join('');
+}
+
+const filt = {q:'', k:'', m:'', shown:40};
+function renderChips(){
+  const all = `<button class="fchip ${filt.k?'':'on'}" style="--c:#e8f3f5" data-k="">${lang==='ar'?'الكل':'All'}</button>`;
+  document.getElementById('fchips').innerHTML = all + Object.keys(DOMAINS).filter(k=>byDomain[k]).map(k =>
+    `<button class="fchip ${filt.k===k?'on':''}" style="--c:${DOMAINS[k].c}" data-k="${k}">${lang==='ar'?DOMAINS[k].ar:DOMAINS[k].en}</button>`).join('');
+  document.querySelectorAll('.fchip').forEach(b => b.onclick = () => { filt.k=b.dataset.k; renderChips(); renderLog(true); });
+}
+function renderLog(reset){
+  if(reset) filt.shown = 40;
+  const q = filt.q.toLowerCase();
+  const rows = commits.filter(c => (!filt.k||c.k===filt.k) && (!filt.m||c.d.startsWith(filt.m)) && (!q || (c.s+' '+c.m.join(' ')).toLowerCase().includes(q)));
+  document.getElementById('cnt').textContent = `${rows.length} / ${commits.length} commits`;
+  document.getElementById('log').innerHTML = rows.slice(0,filt.shown).map(c =>
+    `<div class="row"><span class="d">${c.d}</span><span class="k" style="background:${DOMAINS[c.k].c}"></span><span>${c.s.replace(/</g,'&lt;')}<span class="ms">${c.m.join(' · ')}</span></span></div>`).join('');
+  document.getElementById('more').style.display = rows.length > filt.shown ? 'block' : 'none';
+}
+function explorer(){
+  const sel = document.getElementById('month');
+  sel.innerHTML = `<option value="">${lang==='ar'?'كل الشهور':'All months'}</option>` + Object.keys(byMonth).sort().reverse().map(m=>`<option value="${m}">${monthName(m)} (${byMonth[m]})</option>`).join('');
+  sel.value = filt.m;
+  renderChips(); renderLog(false);
+}
+document.getElementById('q').oninput = e => { filt.q = e.target.value; renderLog(true); };
+document.getElementById('month').onchange = e => { filt.m = e.target.value; renderLog(true); };
+document.getElementById('more').onclick = () => { filt.shown += 60; renderLog(false); };
+
+function observe(){
+  const io = new IntersectionObserver(es => es.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in');
+    e.target.querySelectorAll('[data-w]').forEach(i => i.style.width = i.dataset.w+'%'); io.unobserve(e.target);} }), {threshold:.12});
+  document.querySelectorAll('.reveal,.phase,.heat-card,#doms,#mods').forEach(el => io.observe(el));
+  const bio = new IntersectionObserver(es => es.forEach(e => e.isIntersecting && e.target.parentElement.classList.add('in')), {threshold:.3});
+  bio.observe(document.getElementById('bars'));
+}
+
+
+const SERVICES = [{"icon": "📦", "c": "#19b3a6", "ar": "باقات Odoo الجاهزة للشركات الصغيرة والمتوسطة", "en": "Ready-to-Launch SME Odoo Packages", "dar": "تطبيق سريع لأساسيات العمل (مبيعات، مشتريات، مخازن، حسابات، وموارد بشرية) بباقات جاهزة وسعر ثابت وواضح من أول يوم.", "den": "Fast-track ERP implementation (Sales, Purchase, Inventory, Accounting & HR) with fixed-price packages and rapid onboarding.", "tags": ["Odoo 17 / 18", "Fixed Price", "SME Ready"]}, {"icon": "🧾", "c": "#f6b45c", "ar": "الفاتورة الإلكترونية المصرية (ETA) والسعودية (ZATCA)", "en": "Egypt ETA & Saudi ZATCA E-Invoicing", "dar": "ربط مباشر ومعتمد مع منظومة الفاتورة الإلكترونية والإيصال الإلكتروني بمصر (ETA)، وهيئة الزكاة والضريبة السعودية (ZATCA المرحلة 1 و2 مع TLV QR).", "den": "Direct tax compliance integration with Egyptian Tax Authority (ETA) and Saudi ZATCA Phase 1 & Phase 2 E-Invoicing with TLV QR.", "tags": ["Egypt ETA", "ZATCA Phase 1 & 2", "Tax QR"]}, {"icon": "🔗", "c": "#7ee8d6", "ar": "التكاملات المؤسسية والربط البرمجي الشامل", "en": "Enterprise & Third-Party Integrations", "dar": "ربط ثنائي الاتجاه مع SAP Business One، أجهزة البصمة ZKTeco، بوابات الدفع (HyperPay, MyFatoorah, QIB)، شركات الشحن (OTO)، وتطبيقات الموبايل.", "den": "Two-way sync with SAP Business One, ZKTeco biometric devices, payment gateways (HyperPay, MyFatoorah, QIB), OTO shipping, and Mobile REST APIs.", "tags": ["SAP B1", "ZKTeco ADMS", "HyperPay · OTO", "REST APIs"]}, {"icon": "🏗️", "c": "#b28cff", "ar": "حلول مخصصة للقطاعات (Vertical ERPs)", "en": "Industry-Specific Vertical Solutions", "dar": "موديولات متخصصة جاهزة ومجربة لقطاعات: المقاولات والمكتب الفني، قطع الغيار والاستيراد، الصالونات والعيادات، مكاتب المحاماة، وشركات التقسيط.", "den": "Battle-tested vertical modules for Contracting & Technical Office, Auto Spare Parts & Import Trips, Salons & Clinics, Law Firms, and Installment Sales.", "tags": ["مقاولات", "قطع غيار", "صالونات وعيادات", "محاماة وتقسيط"]}, {"icon": "🚀", "c": "#5fb4ff", "ar": "الترقية والترحيل الآمن للإصدارات الحديثة", "en": "Safe Upgrades & Data Migration (v13 → v18/19)", "dar": "ترقية الأنظمة القديمة وترحيل الكود وقواعد البيانات إلى أودو 17 و18 و19 مع مقارنة بصمة البيانات قبل وبعد الترقية لضمان عدم فقدان أي سجل.", "den": "Full code and database migration from legacy Odoo versions to v17/v18/v19 using before/after data fingerprints with zero data loss.", "tags": ["v13 → v18/19", "Data Fingerprints", "Zero Data Loss"]}, {"icon": "🛡️", "c": "#ef6f6c", "ar": "عقود الدعم الشهري وإدارة السيرفرات (سحابي / أوفلاين)", "en": "Monthly SLA Support & Cloud/Offline DevOps", "dar": "عقود صيانة ودعم فني شهري، نسخ احتياطي آلي، وتشغيل احترافي عبر Docker/Linux على السحابة أو سيرفرات داخلية معزولة عن الإنترنت.", "den": "Monthly support SLAs, automated backups, and production deployment on Cloud (DigitalOcean/AWS) or air-gapped Offline servers.", "tags": ["Monthly SLA", "Offline Servers", "Docker · Nginx"]}];
+const FOUNDERS = [{"name_ar": "م. محمد صبحي", "name_en": "Eng. Mohamed Sobhy", "role_ar": "شريك مؤسس · كبير مهندسي ومستشاري حلول أودو", "role_en": "Co-Founder · Principal Odoo Techno-Functional Architect", "exp_ar": "+8 سنوات خبرة", "exp_en": "8+ Years Experience", "color": "#19b3a6", "bio_ar": "خبير في تصميم وبناء المنظومات المؤسسية الكبرى من البداية حتى التشغيل الفعلي على بيئات الإنتاج. قاد بناء وتطوير منظومات المقاولات والمكتب الفني والتركيبات والمناقصات على Odoo 18، والربط المعقد مع SAP Business One، وهندسة الصلاحيات وسجلات التدقيق، وإدارة السيرفرات المعزولة بدون إنترنت بأعلى معايير الاعتمادية.", "bio_en": "Expert in architecting and delivering mission-critical Odoo ERP platforms end-to-end. Led full-cycle Odoo 18 implementations covering CRM, Tenders, Technical Office, Installation, SAP Business One integration, security governance, and air-gapped offline production servers.", "highlights_ar": ["هندسة دورة العمل الكاملة: المبيعات ← المناقصات ← المكتب الفني ← التركيبات والتنفيذ", "التكامل اللحظي والليلي مع SAP Business One وتسريع استعلامات الأسعار والمخزون", "إدارة ترقيات الإنتاج الحرجة وبصمة البيانات والنشر على سيرفرات بدون إنترنت", "بناء مراكز الإشعارات الذكية، مخطط الوقت (Time Planner)، وسجل التدقيق اليومي"], "highlights_en": ["End-to-end architecture: Sales → Tenders → Technical Office → Installation cycle", "Real-time & nightly SAP Business One sync with high-speed caching", "Zero-downtime production upgrades, data fingerprinting & offline server delivery", "Smart Notification Center, Time Planner & Daily Audit Trail dashboards"], "badges": ["Odoo 18 Architect", "SAP Business One", "Techno-Functional Lead", "Offline Production DevOps"]}, {"name_ar": "م. أحمد محمد أحمد", "name_en": "Eng. Ahmed Mohammed", "role_ar": "شريك مؤسس · مدير تطوير أنظمة أودو والتكاملات البرمجية", "role_en": "Co-Founder · Lead Full-Stack Odoo Developer & Integrations Architect", "exp_ar": "+3 سنوات خبرة مكثفة · خريج ITI وعلوم حاسب", "exp_en": "3+ Years Intensive ERP Delivery · ITI & CS Graduate", "color": "#f6b45c", "bio_ar": "مطوّر أودو معتمد من معهد تكنولوجيا المعلومات (ITI - Full Stack Python & Odoo) وبكالوريوس علوم الحاسب وحاصل على شهادة Cisco CyberOps. متخصص في بناء أنظمة SaaS متعددة الفروع والشركات في مصر والسعودية وقطر عبر إصدارات Odoo (v13–v20)، الفاتورة الإلكترونية (ZATCA & ETA)، تكاملات REST API لتطبيقات الموبايل، بوابات الدفع والشحن، وأنظمة البصمة والمرتبات.", "bio_en": "ITI-certified Full-Stack Odoo Developer with a B.Sc. in Computer Science and Cisco CyberOps certification. Specialized in multi-branch SaaS ERP architectures across Egypt, KSA, and Qatar (Odoo v13–v20), ZATCA/ETA e-invoicing, Mobile REST APIs, payment/shipping gateways, and biometric payroll engines.", "highlights_ar": ["تطوير منظومات SaaS متكاملة للسوق السعودي والقطري والمصري مع الفاتورة الإلكترونية (ZATCA المرحلة 1 و2 والضرائب المصرية)", "بناء محركات البصمة والورديات والمرتبات (ZKTeco IP / ADMS / Local Agent) ومزامنة قوالب البصمات", "تصميم موديولات قطاعية كاملة: مكاتب المحاماة، قطع الغيار ورحلات الاستيراد، محلات التقسيط، الصالونات، والفنادق", "ربط بوابات الدفع (HyperPay, MyFatoorah, QIB) وشركات الشحن (OTO) وواجهات REST API لتطبيقات iOS/Android"], "highlights_en": ["Multi-tenant SaaS ERP systems for KSA, Qatar & Egypt with ZATCA Phase 1 & 2 and Egyptian Tax compliance", "Advanced ZKTeco Biometric Attendance & Payroll Engine (IP, ADMS Push, Local Agent & Fingerprint sync)", "Complete vertical ERPs: Law Firms, Auto Spare Parts & Import Trips, Installment Shops, Salons & Hotels", "Payment & shipping integrations (HyperPay, MyFatoorah, QIB, OTO) & full Mobile App REST APIs"], "badges": ["Odoo v13–v20", "ITI Certified", "ZATCA & ETA", "REST APIs · OWL", "Docker · Security"], "links": [{"label": "GitHub", "url": "https://github.com/Ahmmedmohmed"}, {"label": "LinkedIn", "url": "https://www.linkedin.com/in/ahmed-mohmed-odoo/"}, {"label": "WhatsApp", "url": "https://wa.me/201117004567"}]}];
+const PORTFOLIO = [{"id": "extramile", "cat": "contracting", "color": "#19b3a6", "country_ar": "مصر · Odoo 18 Community", "country_en": "Egypt · Odoo 18 Community", "lead_ar": "م. محمد صبحي", "lead_en": "Eng. Mohamed Sobhy", "title_ar": "منظومة ExtraMile المتكاملة للمقاولات والمكتب الفني والربط مع SAP", "title_en": "ExtraMile End-to-End Contracting, Technical Office & SAP Platform", "desc_ar": "بناء نظام التشغيل الكامل للشركة من أول الفرصة البيعية والمناقصات، لطلبات المكتب الفني، لدورة مدير التركيبات، للتكامل اللحظي والليلي مع SAP Business One، وتشغيله على سيرفرات إنتاج معزولة عن الإنترنت.", "desc_en": "Complete operating system connecting Sales, Tenders, Technical Office service requests, Installation cycle, and SAP Business One on air-gapped production servers.", "bullets_ar": ["227+ تعديل برمجي موثّق عبر 82 موديول على مدار 13 شهراً متواصلاً", "ربط المبيعات والمشتريات والمخزون مع SAP B1 مع ذاكرة مؤقتة وجلسة مشتركة ومزامنة ليلية", "دورة المكتب الفني وطلبات الخدمة ومهام على مستوى السطر مع تصعيد متابعات 24/48/72 ساعة", "تطبيق المستندات بصلاحيات المجلدات، مركز الإشعارات، مخطط الوقت، وسجل التدقيق اليومي"], "bullets_en": ["227+ production code releases across 82 modules over 13 continuous months", "SAP Business One integration with shared session caching and nightly item sync", "Technical Office service requests, line-level tasks, and 24/48/72h escalation alerts", "Folder-based Documents app, Notification Center, Time Planner & Daily Audit Trail"], "modules": ["inter_sales_custom", "inter_project_custom", "sbo1_integration", "crm_tender_bridge", "extramile_documents", "extramile_audit_trail", "time_planner"]}, {"id": "kayatech", "cat": "ecom", "color": "#f6b45c", "country_ar": "السعودية · Odoo 17 SaaS", "country_en": "Saudi Arabia · Odoo 17 SaaS", "lead_ar": "م. أحمد محمد", "lead_en": "Eng. Ahmed Mohammed", "title_ar": "منظومة Kaya Tech & Nouf Beauty السحابية لإدارة الصالونات والمتاجر", "title_en": "Kaya Tech & Nouf Beauty Multi-Branch Salon & E-Commerce SaaS", "desc_ar": "منصة ERP و POS وتطبيق موبايل متكاملة لإدارة سلاسل الصالونات والعناية في الرياض (أكثر من 500 خدمة)، مع الفاتورة الإلكترونية السعودية ZATCA وبوابة حجز خارجية ومساعد ذكي.", "desc_en": "Full multi-branch ERP, OWL POS, public booking portal, and mobile backend in Riyadh with Saudi ZATCA Phase 1 & 2 E-Invoicing and payment/shipping gateways.", "bullets_ar": ["نظام حجز المواعيد والباقات والعربون وشاشات OWL POS المخصصة وحساب عمولات الأخصائيين", "بوابة حجز خارجية ثنائية اللغة (/booking) بدون تسجيل دخول + مساعد Kaya الذكي العائم", "ربط بوابة الدفع HyperPay (مدى/فيزا/Apple Pay) وشركة الشحن OTO ورسائل التحقق Mobile.sa OTP وإشعارات Firebase", "تخصيص ذكي للمخزون والتكاليف الاستيرادية (Landed Costs) وشرائح ولاء العملاء والمحفظة الإلكترونية"], "bullets_en": ["Full appointment lifecycle, packages, deposits, custom OWL POS popups & specialist commissions", "Standalone bilingual Public Booking Portal (/booking) + floating 'Kaya' OWL AI/FAQ assistant", "HyperPay payment gateway, OTO shipping API, Mobile.sa SMS OTP & Firebase push notifications", "Smart Kanban inventory by product category, Landed Costs bridges, eWallet & loyalty tiers"], "modules": ["appointment_management_system", "kaya_public_booking", "hyperpay_api_integration", "oto_shipping_integration", "kaya_inventory_custom", "sms_mobile_sa_otp", "partner_loyalty_tiers"]}, {"id": "rabeh", "cat": "contracting", "color": "#7ee8d6", "country_ar": "قطر · Odoo 14 → 17", "country_en": "Qatar · Odoo 14 → 17", "lead_ar": "م. أحمد محمد", "lead_en": "Eng. Ahmed Mohammed", "title_ar": "مجموعة رابح ونيو تاون للمقاولات والتجارة والسوق الإلكتروني (الدوحة)", "title_en": "Rabeh Group & Newtown Contracting ERP & Multi-Vendor Marketplace", "desc_ar": "تطوير شامل لمنظومة المقاولات والتجارة الإلكترونية في قطر، يشمل المقايسات وحصر الكميات، إدارة المشاريع، السوق متعدد التجار، وتطبيقات الموبايل على App Store و Google Play.", "desc_en": "Comprehensive ERP for contracting and multi-vendor e-commerce in Qatar, covering BOQ, construction management, mobile app APIs, and Qatari payment/payroll integrations.", "bullets_ar": ["نظام المقايسات وحصر الكميات (BOQ) وربط عروض الأسعار بالمشاريع وطلبات الشراء", "واجهات برمجية متكاملة لتطبيق الموبايل (Rabeh Digital APIs) والسوق متعدد التجار (Multi-Vendor)", "ربط بوابات الدفع القطرية والخليجية (بنك قطر الدولي QIB و MyFatoorah) وبوابة Twilio WhatsApp/SMS", "تقارير نظام حماية الأجور القطري (WPS) وترقية قواعد البيانات والموديولات من Odoo 14 إلى 17"], "bullets_en": ["Bill of Quantities (BOQ) system linking quotations, projects, and material requisitions", "Mobile REST APIs for Rabeh Digital (iOS & Android) and Multi-Vendor Marketplace", "Qatar Islamic Bank (QIB) & MyFatoorah payment gateways plus Twilio WhatsApp/SMS", "Qatar Wage Protection System (WPS) payroll reports & full migration from Odoo 14 to 17"], "modules": ["rabeh_boq", "pways_construction_management", "rabeh_digital", "odoo_marketplace", "qib_payment_gateway", "myfatoorah_payment_gateway", "wps_report"]}, {"id": "biometric", "cat": "hr", "color": "#b28cff", "country_ar": "مصر والخليج · Odoo 17 / 18 / 19", "country_en": "MENA · Odoo 17 / 18 / 19", "lead_ar": "م. أحمد محمد", "lead_en": "Eng. Ahmed Mohammed", "title_ar": "محرك تكامل أجهزة البصمة والورديات والمرتبات (ZKTeco Engine v3)", "title_en": "Biometric Fingerprint Attendance, Shifts & Payroll Engine v3", "desc_ar": "معمارية متكاملة لربط أجهزة البصمة ZKTeco مع الموارد البشرية والمرتبات، تدعم الاتصال المباشر والسحابي والوكيل المحلي مع معالجة ذكية لفروق التوقيت ومزامنة قوالب البصمات.", "desc_en": "Enterprise ZKTeco biometric engine supporting Direct IP, Cloud ADMS Push, and Local Agent with clock-drift protection, fingerprint sync, and automated payroll penalties.", "bullets_ar": ["3 طرق اتصال في شاشة موحدة: اتصال مباشر (IP/4370)، بروتوكول ADMS السحابي، و Local Agent", "فحص تلقائي لفرق ساعة الجهاز (Clock Difference) ومنع انزلاق التوقيت (Timezone Guard)", "سحب قوالب بصمات الأصابع (Fingerprints) من أي جهاز وتوزيعها تلقائياً على الأجهزة المسموحة للموظف", "دعم الورديات الثابتة والمرنة والليلية ودوام الفترتين (Split Shifts) وحساب التأخير والجزاءات والأوفر تايم في المرتب"], "bullets_en": ["Unified device control across Direct IP, Cloud ADMS Push, and Local Agent modes", "Automatic Clock Difference detection and strict Device Timezone protection", "Pull & push fingerprint templates (biometric.fingerprint) across multi-branch devices", "Fixed, flexible, overnight & split shifts with automated tiered payroll deductions"], "modules": ["biometric_device_integration", "biometric_attendance_payroll", "hr_zk_attendance_pyzk", "rm_hr_attendance_sheet"]}, {"id": "lawoffice", "cat": "verticals", "color": "#5fb4ff", "country_ar": "مصر · Odoo 17", "country_en": "Egypt · Odoo 17", "lead_ar": "م. أحمد محمد", "lead_en": "Eng. Ahmed Mohammed", "title_ar": "نظام إدارة مكاتب المحاماة والاستشارات القانونية في مصر", "title_en": "Egyptian Law Office & Legal Practice Management ERP", "desc_ar": "إضافة معمارية متكاملة (16 نموذج بيانات، 22 ملف XML، 406 نص معرّب) تغطي دورة العمل القانونية في مصر من فتح القضية والاستشارات حتى درجات التقاضي والطعن وتحصيل الأتعاب.", "desc_en": "Complete legal ERP for Egyptian law firms (16 models, 22 XML views/reports, 406 Arabic translations) covering litigation, appeals, legal deadlines, and client portal.", "bullets_ar": ["دورة حياة القضية وسلسلة الطعون المترابطة: أول درجة ← استئناف ← نقض مع أزرار تنقل ذكية", "محرك حساب المواعيد القانونية ومواعيد الطعن (40/60/15/10 أيام) مع ترحيل العطلات الأسبوعية والقضائية تلقائياً", "رول الجلسات، التوكيلات، دفعات الأتعاب والمصروفات، ومولّد المستندات والإنذارات من القوالب", "بوابة إلكترونية آمنة للموكلين (/my/cases) بعزل كامل للملاحظات الداخلية + إخطارات واتساب بضغطة واحدة"], "bullets_en": ["Full litigation lifecycle & linked appeal chain: First Instance → Appeal → Cassation", "Automated legal deadline calculator with Egyptian weekend & judicial holiday extension", "Hearing roll, Powers of Attorney, fee installments, expenses & legal template engine", "Zero-trust Client Portal (/my/cases) + 1-click WhatsApp hearing & fee notifications"], "modules": ["lawyer_office", "account", "portal", "mail"]}, {"id": "spareparts", "cat": "verticals", "color": "#ffd166", "country_ar": "مصر · Odoo 17", "country_en": "Egypt · Odoo 17", "lead_ar": "م. أحمد محمد", "lead_en": "Eng. Ahmed Mohammed", "title_ar": "نظام رحلات الاستيراد وإدارة قطع غيار السيارات", "title_en": "Auto Spare Parts & Import Trips Management ERP", "desc_ar": "نظام متخصص لشركات استيراد وتجارة قطع الغيار يربط المشتريات والمصاريف الجمركية والشحن والمبيعات بكل رحلة استيراد ليحسب التكلفة الفعلية للقطعة وصافي ربح كل رحلة.", "desc_en": "Specialized ERP for auto spare parts importers tracking per-trip purchases, FX rates, customs/freight, FIFO trip stock allocation, and net profit per trip.", "bullets_ar": ["حساب مستقل لكل رحلة استيراد: المشتريات بالعملة الأجنبية، مصاريف الشحن والجمارك، وصافي الربح الفعلي", "تخصيص المخزون تلقائياً بنظام FIFO لربط المبيعات بأقدم رحلة استيراد متاح بها رصيد للصنف", "كتالوج قطع الغيار: البحث برقم القطعة الأصلي والبديل (OEM)، موديلات السيارات المتوافقة، والدرجة (أصلي/تجاري)", "بيع جملة وقطاعي، جدولة الدفعات والأقساط، وطباعة الفاتورة الضريبية المصرية (A4 عربي بالـ QR والتفقيط)"], "bullets_en": ["Per-trip accounting: foreign currency purchases, customs/shipping expenses & true net profit", "Automatic FIFO trip stock allocation linking sales to the oldest active import trip", "Auto parts catalog with OEM cross-referencing, car model compatibility & shelf locations", "Wholesale/retail pricing, installments & Egyptian Tax Invoice PDF with QR and Arabic Tafqeet"], "modules": ["trip_spare_parts", "sale", "purchase", "stock"]}, {"id": "installments", "cat": "verticals", "color": "#ef6f6c", "country_ar": "مصر · Odoo 17", "country_en": "Egypt · Odoo 17", "lead_ar": "م. أحمد محمد", "lead_en": "Eng. Ahmed Mohammed", "title_ar": "نظام إدارة محلات وشركات التقسيط والبيع بالباركود", "title_en": "Barcode-Driven Installment & Hire-Purchase ERP", "desc_ar": "منظومة شاملة لإدارة شركات البيع بالتقسيط والنقدي مع تدفق بيع فوري بالباركود، طباعة ملصقات QR، رصد آلي للمتأخرات، وكشوف حساب متكاملة للعملاء والموردين.", "desc_en": "End-to-end installment sales ERP featuring barcode-driven cash/installment checkout, QR label printing, automated overdue tracking, and 10-role security.", "bullets_ar": ["شاشة بيع فوري بالباركود تخيّر الكاشير لحظياً بين بيع نقدي أو فتح عقد تقسيط متعدد الأصناف", "مهمة مجدولة كل ساعة لتحويل العقود المتأخرة تلقائياً إلى قائمة المتأخرين مع إرسال تذكير واتساب بضغطة زر", "إيصالات سداد تعرض الرصيد قبل وبعد الدفعة + زر تراجع آمن عن السداد + أرصدة افتتاحية للعقود القديمة", "مصفوفة صلاحيات دقيقة من 10 مجموعات تفصل بين الكاشير، المحصّل، أمين المخزن، والمدير"], "bullets_en": ["Barcode-triggered checkout offering instant choice between Cash Sale or Multi-Item Installment Contract", "Hourly cron job flagging overdue contracts with 1-click WhatsApp Web payment reminders", "Receipts with before/after balance, safe payment undo, vendor receipts & opening balances", "Granular 10-role security model separating cashier, collector, inventory, and management"], "modules": ["installment_management", "barcodes_generator_abstract", "garazd_product_label"]}, {"id": "florist", "cat": "ecom", "color": "#9ad17b", "country_ar": "السعودية · Odoo 17 Docker", "country_en": "Saudi Arabia · Odoo 17 Docker", "lead_ar": "م. أحمد محمد", "lead_en": "Eng. Ahmed Mohammed", "title_ar": "منظومة ذا فلوريست وتجارة الزهور والهدايا (District Flowers KSA)", "title_en": "District Flowers & Florist Retail ERP (Saudi Arabia)", "desc_ar": "نظام ERP متكامل لسلاسل محلات الزهور والهدايا في السعودية، يشمل الفاتورة الإلكترونية ZATCA، المنتجات المجمّعة، باقة واتساب الشاملة، والتأمينات الاجتماعية السعودية GOSI.", "desc_en": "Dockerized Odoo 17 ERP for Saudi florist retail chains with ZATCA e-invoicing, combo products, full WhatsApp Business suite, and Saudi GOSI payroll.", "bullets_ar": ["الفاتورة الإلكترونية السعودية (ZATCA) للمبيعات والمشتريات والإشعارات الدائنة والمدينة بـ Base64 TLV QR", "باقة تكامل واتساب الشاملة (للمبيعات، نقاط البيع، الحسابات، التوصيل، والمتجر الإلكتروني)", "إدارة المنتجات المجمّعة (Combo Products)، الضمان، وطباعة ملصقات الباركود الاحترافية", "نظام الموارد البشرية السعودي: عقود العمل، التأمينات الاجتماعية (GOSI)، السلف، والعهد"], "bullets_en": ["Saudi ZATCA E-Invoicing with Base64 TLV QR across sales, purchases, and credit/debit notes", "Complete WhatsApp integration suite across POS, Sales, Accounting, Delivery & eCommerce", "Combo products, warranty management & professional barcode label printing", "Saudi HR localization: GOSI payroll rules, Saudi contracts, loans & employee custodies"], "modules": ["mai_e_invoice_ksa", "combo_product", "hr_advanced_gosi", "whatsapp_pos", "whatsapp_sale", "garazd_product_label_pro"]}, {"id": "hospitality", "cat": "verticals", "color": "#ff9f80", "country_ar": "قطر والسعودية ومصر · Odoo 16 / 17", "country_en": "GCC & Egypt · Odoo 16 / 17", "lead_ar": "م. أحمد محمد", "lead_en": "Eng. Ahmed Mohammed", "title_ar": "أنظمة الفنادق والعقارات والمحامص والعيادات (Cloudbeds · العقارات · HMS)", "title_en": "Hospitality (Cloudbeds PMS), Real Estate, Healthcare & Roastery ERPs", "desc_ar": "مجموعة حلول قطاعية منفذة لشركات في الخليج ومصر تشمل الربط ثنائي الاتجاه مع نظام الفنادق العالمي Cloudbeds، إدارة العقارات والشيكات، المستشفيات والعيادات، وولاء المقاهي.", "desc_en": "Suite of specialized GCC & Egypt ERPs including two-way Cloudbeds PMS hotel sync, real estate & post-dated checks, medical clinics (HMS), and Google/Apple Wallet loyalty.", "bullets_ar": ["ربط ثنائي الاتجاه بين Odoo POS/Inventory ومنصة الفنادق العالمية Cloudbeds PMS (مشروع Chido & Dirwazh)", "أنظمة العقارات والشركات القابضة في قطر (بنيان الدوحة، ميناتسا القابضة) مع إدارة الشيكات المؤجلة", "نظام إدارة المستشفيات والعيادات الطبية (odoo_hms) والعيادات البيطرية (Al-Safir Vet) والأندية الرياضية", "نظام ولاء المحامص والمقاهي (Serene Roastery & بُعد الأعمال) مع بطاقات Apple & Google Wallet"], "bullets_en": ["Two-way sync between Odoo POS/Inventory and Cloudbeds Hotel PMS", "Real estate & holding company ERPs in Qatar (Bonyan Al-Doha, Menatsa Holding) with check management", "Hospital & Medical Clinic ERP (odoo_hms), Veterinary POS (Al-Safir Vet) & Gym Management", "Roastery & retail loyalty systems integrated with Apple Wallet & Google Wallet passes"], "modules": ["my_hotel_integration", "hotel_management", "odoo_hms", "check_management", "gym_mgmt_system", "vehicle_trade"]}, {"id": "webapps", "cat": "webapps", "color": "#19b3a6", "country_ar": "تطبيقات ويب ومنصات SaaS", "country_en": "Full-Stack Web & SaaS Platforms", "lead_ar": "م. أحمد محمد", "lead_en": "Eng. Ahmed Mohammed", "title_ar": "منصة كابتن أسامة للتدريب الذكي ومنصات التعليم والتجارة (React · Django · Supabase)", "title_en": "Captain Osama Coaching SaaS & Full-Stack LMS / E-Commerce Platforms", "desc_ar": "تطوير تطبيقات ويب تقدمية (PWA) ومنصات تعليمية وتجارية متكاملة بجانب أنظمة أودو، باستخدام React.js و Django REST Framework و Supabase.", "desc_en": "Full-stack web applications and PWAs built alongside Odoo ERPs using React.js, Django REST Framework, JWT, and Supabase PostgreSQL.", "bullets_ar": ["منصة Captain Osama PWA: حاسبة تغذية، متابعة المتدربين بالصور والوزن، روابط محمية بـ PIN، وتوليد PDF أوفلاين على Supabase", "منصات التعليم الإلكتروني (Al-Fateh LMS & Dar El-Qalam): لوحات تحكم للطلاب والمدرسين بـ Django REST و React.js", "منصات التجارة الإلكترونية (BUYOUT & Online Store) ونظام حجز تذاكر السينما (CinemaTickets REST API)", "أدوات أتمتة سطح المكتب والـ CLI بلغة بايثون لتحميل المحتوى التعليمي وإرسال الحملات البريدية"], "bullets_en": ["Captain Osama Coaching PWA (Live on Vercel): Supabase RLS, nutrition calculator, PIN-protected links & offline PDF", "Full-stack Learning Management Systems (Al-Fateh & Dar El-Qalam) built with Django REST & React.js", "E-Commerce platforms (BUYOUT) and Cinema Tickets Reservation RESTful API with JWT authentication", "Python desktop & CLI automation tools for multi-threaded media sync and bulk SMTP campaigns"], "modules": ["Supabase · PostgreSQL", "React.js · PWA", "Django REST Framework", "JWT Auth", "Vercel Cloud"], "link": "https://captain-osama-app-v23.vercel.app"}];
+const PCATS = [
+  {k:'', ar:'كل المشاريع (10)', en:'All Projects (10)'},
+  {k:'contracting', ar:'المقاولات والمكتب الفني و SAP', en:'Contracting, TO & SAP'},
+  {k:'ecom', ar:'الصالونات والتجارة الإلكترونية و ZATCA', en:'Salons, E-Commerce & ZATCA'},
+  {k:'verticals', ar:'المحاماة وقطع الغيار والتقسيط والفنادق', en:'Law, Spare Parts, Installments & Hotels'},
+  {k:'hr', ar:'أجهزة البصمة والموارد البشرية', en:'Biometrics & HR Payroll'},
+  {k:'webapps', ar:'تطبيقات الويب و SaaS', en:'Full-Stack Web & SaaS'}
+];
+let curPcat = '';
+
+function renderServices(){
+  const el = document.getElementById('srv-grid'); if(!el) return;
+  el.innerHTML = SERVICES.map(s => `<div class="srv-card reveal in" style="--c:${s.c}">
+    <span class="srv-icon">${s.icon}</span>
+    <h3>${lang==='ar'?s.ar:s.en}</h3>
+    <p>${lang==='ar'?s.dar:s.den}</p>
+    <div class="srv-tags">${s.tags.map(t=>`<span>${t}</span>`).join('')}</div>
+  </div>`).join('');
+}
+
+function renderFounders(){
+  const el = document.getElementById('founders-grid'); if(!el) return;
+  el.innerHTML = FOUNDERS.map(f => {
+    const list = (lang==='ar'?f.highlights_ar:f.highlights_en).map(x=>`<li>${x}</li>`).join('');
+    const links = (f.links||[]).map(l=>`<a href="${l.url}" target="_blank" rel="noopener">🔗 ${l.label}</a>`).join('');
+    return `<div class="founder-card reveal in" style="--c:${f.color}">
+      <div class="founder-head">
+        <h3>${lang==='ar'?f.name_ar:f.name_en}</h3>
+        <span class="founder-exp">${lang==='ar'?f.exp_ar:f.exp_en}</span>
+      </div>
+      <div class="founder-role">${lang==='ar'?f.role_ar:f.role_en}</div>
+      <p class="founder-bio">${lang==='ar'?f.bio_ar:f.bio_en}</p>
+      <ul class="founder-list">${list}</ul>
+      <div class="srv-tags">${f.badges.map(b=>`<span>${b}</span>`).join('')}</div>
+      ${links ? `<div class="founder-links">${links}</div>` : ''}
+    </div>`;
+  }).join('');
+}
+
+function renderPortfolio(){
+  const fel = document.getElementById('proj-filters'), gel = document.getElementById('proj-grid');
+  if(!fel || !gel) return;
+  fel.innerHTML = PCATS.map(c => `<button class="pchip ${curPcat===c.k?'on':''}" data-k="${c.k}">${lang==='ar'?c.ar:c.en}</button>`).join('');
+  fel.querySelectorAll('.pchip').forEach(b => b.onclick = () => { curPcat = b.dataset.k; renderPortfolio(); });
+  const items = PORTFOLIO.filter(p => !curPcat || p.cat === curPcat);
+  gel.innerHTML = items.map(p => {
+    const bullets = (lang==='ar'?p.bullets_ar:p.bullets_en).map(b=>`<li>${b}</li>`).join('');
+    const mods = p.modules.map(m=>`<code>${m}</code>`).join('');
+    const lnk = p.link ? `<a class="proj-link" href="${p.link}" target="_blank" rel="noopener">${lang==='ar'?'↗ معاينة المنصة الحية':'↗ View Live Platform'}</a>` : '';
+    return `<div class="proj-card reveal in" style="--c:${p.color}">
+      <div>
+        <div class="proj-top">
+          <span class="proj-country">${lang==='ar'?p.country_ar:p.country_en}</span>
+          <span class="proj-lead">${lang==='ar'?p.lead_ar:p.lead_en}</span>
+        </div>
+        <h3>${lang==='ar'?p.title_ar:p.title_en}</h3>
+        <p class="proj-desc">${lang==='ar'?p.desc_ar:p.desc_en}</p>
+        <ul class="proj-bullets">${bullets}</ul>
+      </div>
+      <div>
+        <div class="proj-mods">${mods}</div>
+        ${lnk}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function sendWhatsAppInquiry(e){
+  e.preventDefault();
+  const name = document.getElementById('c-name').value.trim();
+  const srv = document.getElementById('c-srv').value;
+  const msg = document.getElementById('c-msg').value.trim();
+  const text = `مرحباً فريق نيل تك (Nile Tech) 👋\nالاسم/الشركة: ${name}\nالخدمة المطلوبة: ${srv}\nالتفاصيل: ${msg || 'أرغب في تحديد موعد استشارة'}`;
+  window.open('https://wa.me/201117004567?text=' + encodeURIComponent(text), '_blank');
+}
+
+function render(){ renderServices(); renderPortfolio(); renderFounders(); heatmap(); bars(); phases(); domains(); cases(); method(); explorer(); observe(); }
+
+document.querySelectorAll('[data-en]').forEach(el => el.dataset.ar = el.innerHTML);
+document.getElementById('lang').onclick = () => {
+  lang = lang==='ar' ? 'en' : 'ar';
+  document.documentElement.lang = lang; document.documentElement.dir = lang==='ar' ? 'rtl' : 'ltr';
+  document.querySelectorAll('[data-en]').forEach(el => el.innerHTML = lang==='ar' ? el.dataset.ar : el.dataset.en);
+  document.getElementById('lang').textContent = lang==='ar' ? 'English' : 'عربي';
+  render(); document.querySelectorAll('.reveal,.phase').forEach(e=>e.classList.add('in'));
+  document.querySelectorAll('[data-w]').forEach(i => i.style.width = i.dataset.w+'%');
+};
+
+/* animated network background */
+(function(){
+  const cv=document.getElementById('net'), ctx=cv.getContext('2d'); let W,H,P;
+  const init=()=>{ W=cv.width=cv.offsetWidth*devicePixelRatio; H=cv.height=cv.offsetHeight*devicePixelRatio;
+    P=Array.from({length:70},()=>({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.35*devicePixelRatio,vy:(Math.random()-.5)*.35*devicePixelRatio})); };
+  const tick=()=>{ ctx.clearRect(0,0,W,H);
+    for(const p of P){ p.x+=p.vx; p.y+=p.vy; if(p.x<0||p.x>W)p.vx*=-1; if(p.y<0||p.y>H)p.vy*=-1; }
+    const R=140*devicePixelRatio;
+    for(let i=0;i<P.length;i++)for(let j=i+1;j<P.length;j++){ const a=P[i],b=P[j],d=Math.hypot(a.x-b.x,a.y-b.y);
+      if(d<R){ ctx.strokeStyle=`rgba(25,179,166,${(1-d/R)*.5})`; ctx.lineWidth=devicePixelRatio; ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke(); } }
+    if(window.mouse){ const r=cv.getBoundingClientRect(), mx=(mouse.x-r.left)*devicePixelRatio, my=(mouse.y-r.top)*devicePixelRatio, MR=200*devicePixelRatio;
+      for(const p of P){ const d=Math.hypot(p.x-mx,p.y-my);
+        if(d<MR){ ctx.strokeStyle=`rgba(246,180,92,${(1-d/MR)*.8})`; ctx.beginPath(); ctx.moveTo(p.x,p.y); ctx.lineTo(mx,my); ctx.stroke();
+          p.x+=(p.x-mx)/d*.6; p.y+=(p.y-my)/d*.6; } } }
+    for(const p of P){ ctx.fillStyle='#7ee8d6'; ctx.beginPath(); ctx.arc(p.x,p.y,1.8*devicePixelRatio,0,7); ctx.fill(); }
+    requestAnimationFrame(tick); };
+  addEventListener('resize',init); init(); tick();
+})();
+
+document.getElementById('gen').textContent = ' · ' + S.first + ' → ' + S.last;
+render(); animateCounts();
+function finalize(){
+  document.querySelectorAll('[data-count]').forEach(el => el.textContent = counts[el.dataset.count]);
+  document.querySelectorAll('.reveal,.phase,.heat-card').forEach(e => e.classList.add('in'));
+  document.querySelectorAll('[data-w]').forEach(i => i.style.width = i.dataset.w+'%');
+}
+addEventListener('beforeprint', finalize);
+
+const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* module marquee */
+(function(){
+  const all = [...new Set(commits.flatMap(c => c.m))].sort();
+  const items = all.map(m => `<span>${m}</span>`).join('');
+  document.getElementById('marquee').innerHTML = items + items;
+})();
+
+/* typewriter rotator */
+(function(){
+  const W = {ar:['أنظمة Odoo ERP','المقاولات والمكتب الفني','الفاتورة الإلكترونية ETA & ZATCA','التكامل مع SAP','الصالونات والتجارة الإلكترونية','قطع الغيار والاستيراد','أجهزة البصمة والمرتبات','مكاتب المحاماة والتقسيط'],
+             en:['Odoo ERP Systems','Contracting & Tech Office','ETA & ZATCA E-Invoicing','SAP Integration','Salons & E-Commerce','Spare Parts & Import Trips','Biometrics & Payroll','Law Firms & Installments']};
+  const el = document.getElementById('rot'); let i=0, j=0, del=false;
+  const tick = () => {
+    const words = W[lang], w = words[i % words.length];
+    el.textContent = w.slice(0, j);
+    if(!del && j === w.length){ del = true; return setTimeout(tick, 1400); }
+    if(del && j === 0){ del = false; i++; }
+    j += del ? -1 : 1;
+    setTimeout(tick, del ? 45 : 95);
+  };
+  reduced ? (el.textContent = W.ar.join(' · ')) : tick();
+})();
+
+/* scroll progress + journey line */
+function onScroll(){
+  const h = document.documentElement, p = h.scrollTop / (h.scrollHeight - h.clientHeight);
+  document.getElementById('progress').style.width = (p*100) + '%';
+  const j = document.getElementById('phases'), r = j.getBoundingClientRect();
+  const g = Math.min(1, Math.max(0, (innerHeight*0.75 - r.top) / r.height));
+  j.style.setProperty('--grow', g);
+}
+addEventListener('scroll', onScroll, {passive:true}); onScroll();
+
+/* cursor glow + 3D tilt */
+const glow = document.getElementById('glow');
+addEventListener('mousemove', e => { glow.style.left = e.clientX+'px'; glow.style.top = e.clientY+'px'; window.mouse = {x:e.clientX, y:e.clientY}; });
+document.addEventListener('mousemove', e => {
+  if(reduced) return;
+  const card = e.target.closest('.kpi,.dom,.case,.phase .body');
+  document.querySelectorAll('.tilt').forEach(c => { if(c !== card){ c.style.transform=''; c.classList.remove('tilt'); } });
+  if(!card) return;
+  const r = card.getBoundingClientRect(), x = (e.clientX-r.left)/r.width-.5, y = (e.clientY-r.top)/r.height-.5;
+  card.classList.add('tilt');
+  card.style.transform = `perspective(900px) rotateY(${x*8}deg) rotateX(${-y*8}deg) translateY(-4px)`;
+});
+
+/* domain numbers count up when visible */
+new IntersectionObserver((es, io) => es.forEach(e => { if(!e.isIntersecting) return; io.unobserve(e.target);
+  e.target.querySelectorAll('.dom .n').forEach(n => { const t=+n.textContent, t0=performance.now();
+    const s = now => { const p=Math.min(1,(now-t0)/1100); n.textContent=Math.round(t*(1-Math.pow(1-p,3))); if(p<1) requestAnimationFrame(s); }; requestAnimationFrame(s); });
+}), {threshold:.2}).observe(document.getElementById('doms'));
+if(location.search.includes('print')) finalize();
+</script>
+</body>
+</html>
